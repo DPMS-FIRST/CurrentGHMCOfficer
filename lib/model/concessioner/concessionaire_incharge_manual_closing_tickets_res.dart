@@ -34,14 +34,14 @@ class TicketList {
   String? lOCATION;
   String? cREATEDDATE;
   String? eSTWT;
-  Null? pAYMENTSTATUS;
+  String? pAYMENTSTATUS;
   String? wARDID;
   String? wARDNAME;
   String? cIRCLEID;
   String? cIRCLENAME;
   String? zONEID;
   String? zONENAME;
-  Null? lANDMARK;
+  String? lANDMARK;
   String? vEHICLETYPE;
   String? iMAGE1PATH;
   String? nOOFVEHICLES;
@@ -49,7 +49,7 @@ class TicketList {
   String? lATITUDE;
   String? lONGITUDE;
   String? tYPEOFWASTE;
-  Null? listVehicles;
+  String? listVehicles;
 
   TicketList(
       {this.tICKETID,

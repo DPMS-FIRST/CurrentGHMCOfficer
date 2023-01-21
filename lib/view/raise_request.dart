@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:ghmcofficerslogin/model/get_vehicles_reponse.dart';
@@ -13,6 +12,7 @@ import 'package:ghmcofficerslogin/model/shared_model.dart';
 import 'package:ghmcofficerslogin/res/components/background_image.dart';
 import 'package:ghmcofficerslogin/res/components/sharedpreference.dart';
 import 'package:ghmcofficerslogin/res/components/showalert_singlebutton.dart';
+import 'package:ghmcofficerslogin/res/components/showtoast.dart';
 import 'package:ghmcofficerslogin/res/constants/ApiConstants/api_constants.dart';
 import 'package:ghmcofficerslogin/res/constants/Images/image_constants.dart';
 import 'package:ghmcofficerslogin/res/constants/app_constants.dart';
@@ -38,6 +38,7 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
+    //Future? _position;
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
@@ -343,7 +344,8 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
                             }
                           }
                         } else {
-                          showToast("There are no vehicles to select");
+                          ShowToats.showToast("There are no vehicles to select",
+                              bgcolor: Colors.white, textcolor: Colors.black);
                         }
                       },
                       icon: Icon(
@@ -546,13 +548,18 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
                         color: Colors.black.withOpacity(0.3),
                       ),
                       child: TextButton(
-                        onPressed: () async{
+                        onPressed: () async {
                           if (landmark.text.isEmpty) {
-                            showToast("Please enter landmark");
+                            ShowToats.showToast("Please enter landmark",
+                                bgcolor: Colors.white, textcolor: Colors.black);
                           } else if (names.isEmpty) {
-                            showToast("Please add atleast one vehicle data");
+                            ShowToats.showToast(
+                                "Please add atleast one vehicle data",
+                                bgcolor: Colors.white,
+                                textcolor: Colors.black);
                           } else if (_image == null) {
-                            showToast("Please select image");
+                            ShowToats.showToast("Please select image",
+                                bgcolor: Colors.white, textcolor: Colors.black);
                           } else {
                             await raiseRequestraiseRequestSubmit();
                             showDialog(
@@ -568,8 +575,8 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
                                     onPressed: () {
                                       Navigator.popUntil(
                                           context,
-                                          ModalRoute.withName(
-                                              AppRoutes.consructiondemolitionwaste));
+                                          ModalRoute.withName(AppRoutes
+                                              .consructiondemolitionwaste));
                                     });
                               },
                             );
@@ -793,9 +800,11 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
                       //amountCount = 0;
                       if (raiserequest_vehicletypeslist.value ==
                           'Select Vehicle Type') {
-                        showToast("Select Vehicle Type");
+                        ShowToats.showToast("Select Vehicle Type",
+                            bgcolor: Colors.white, textcolor: Colors.black);
                       } else if (tripsController.text == '') {
-                        showToast("Please enter valid number");
+                        ShowToats.showToast("Please enter valid number",
+                            bgcolor: Colors.white, textcolor: Colors.black);
                       } else {
                         setState(() {
                           names.add([
@@ -840,18 +849,6 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
           ),
         ),
       ),
-    );
-  }
-
-  void showToast(String msg) {
-    Fluttertoast.showToast(
-      msg: msg,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.white,
-      textColor: Colors.black,
-      fontSize: 16.0,
     );
   }
 
@@ -908,13 +905,20 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    Future.delayed(const Duration(seconds: 1), () async {
+      await _getCurrentPosition();
+    
+    });
+     Future.delayed(const Duration(seconds: 2), () async {
+      
+      await raiserequestgetDemographics();
+    print("lon ----- ${_currentPosition?.latitude}");
+    });
+
     raiserequestGetVehicleType();
-    raiserequestgetDemographics();
     raiserequestForwardToWard();
     raiseRequestraiseRequestSubmit();
-    _getCurrentPosition();
   }
 
   raiserequestGetVehicleType() async {
@@ -927,13 +931,13 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
       final response = await dioObject.get(
         requestUrl,
       );
-      var len = response.data.length;
+     // var len = response.data.length;
       //converting response from String to json
       final data = GetVehiclesResponse.fromJson(response.data);
       //print(response.data);
 
       setState(() {
-        if (data != null) {
+        
           if (data.sTATUSCODE == "200") {
             EasyLoading.dismiss();
             getVehiclesResponse = data;
@@ -946,7 +950,7 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
               }
             }
           }
-        }
+      
       });
     } on DioError catch (e) {
       if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {
@@ -954,7 +958,6 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
         // showAlert(errorMessage);
       }
       print("error is $e");
-
       //print("status code is ${e.response?.statusCode}");
     }
   }
@@ -966,15 +969,15 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
     final requestPayload = {
       "USER_ID": AppConstants.userid,
       "PASSWORD": AppConstants.password,
-      "LATITUDE": "17.4366278", //17.4366278
-      "LONGITUDE": "78.3608636" //78.3608636
+      "LATITUDE": "${_currentPosition?.latitude}", //"17.4366278", //17.4366278
+      "LONGITUDE": "${_currentPosition?.longitude}" //"78.3608636" //78.3608636
     };
-
+   print("demographics request ----- ${requestPayload}");
     final dioObject = Dio();
 
     try {
       final response = await dioObject.post(requestUrl, data: requestPayload);
-      var len = response.data.length;
+      //var len = response.data.length;
       //converting response from String to json
       final data = RaiseRequestDemographicsResponse.fromJson(response.data);
       print("get demographics ${response.data}");
@@ -1009,14 +1012,14 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
 
     try {
       final response = await dioObject.post(requestUrl, data: requestPayload);
-      var len = response.data.length;
+      //var len = response.data.length;
       //converting response from String to json
       final data =
           RaiseRequestForwardToNextWardResponse.fromJson(response.data);
       print(response.data);
 
       setState(() {
-        if (data != null) {
+        
           if (data.sTATUSCODE == "200") {
             EasyLoading.dismiss();
             raiseRequestForwardToNextWardResponse = data;
@@ -1030,7 +1033,7 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
               }
             }
           }
-        }
+      
       });
     } on DioError catch (e) {
       if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {
@@ -1076,14 +1079,14 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
 
     try {
       final response = await dioObject.post(requestUrl, data: requestPayload);
-      var len = response.data.length;
+      //var len = response.data.length;
       //converting response from String to json
       final data =
           RaiseRequestRaiseRequestSubmitResponse.fromJson(response.data);
       print("raise raise request ${response.data}");
 
       setState(() {
-        if (data != null) {
+      
           if (data.sTATUSCODE == "200") {
             EasyLoading.dismiss();
             raiseRequestRaiseRequestSubmitResponse = data;
@@ -1107,7 +1110,7 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
               },
             );
           }
-        }
+      
       });
     } on DioError catch (e) {
       if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {

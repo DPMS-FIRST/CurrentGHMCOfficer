@@ -1,10 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:ghmcofficerslogin/model/grievance_details_response.dart';
-
 import 'package:ghmcofficerslogin/res/components/background_image.dart';
 import 'package:ghmcofficerslogin/res/components/textwidget.dart';
-
 import 'package:ghmcofficerslogin/res/constants/Images/image_constants.dart';
 import 'package:ghmcofficerslogin/res/constants/routes/app_routes.dart';
 import 'package:ghmcofficerslogin/res/constants/text_constants/text_constants.dart';
@@ -16,7 +13,6 @@ class CheckstatusComments extends StatefulWidget {
 }
 
 class _CheckstatusCommentsState extends State<CheckstatusComments> {
-  GrievanceDetailsResponse? _detailsResponse;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +37,6 @@ class _CheckstatusCommentsState extends State<CheckstatusComments> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       showAlert("No Records found");

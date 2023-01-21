@@ -50,7 +50,7 @@ class PaidList {
   String? nOOFVEHICLES;
   String? sTATUS;
   String? tYPEOFWASTE;
-  Null? vehicleList;
+  String? vehicleList;
   List<VehicleDetailsList>? vehicleDetailsList;
 
   PaidList(
@@ -137,7 +137,7 @@ class VehicleDetailsList {
   String? vEHICLETYPE;
   String? nOOFVEHICLES;
   String? aMOUNT;
-  Null? vehicleTripDetails;
+  String? vehicleTripDetails;
 
   VehicleDetailsList(
       {this.vEHICLETYPEID,

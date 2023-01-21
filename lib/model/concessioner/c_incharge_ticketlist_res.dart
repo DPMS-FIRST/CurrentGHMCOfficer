@@ -141,7 +141,7 @@ class CInchargeVehicleList {
   String? vEHICLETYPE;
   String? nOOFVEHICLES;
   String? aMOUNT;
-  Null? vehicleDetails;
+  String? vehicleDetails;
 
   CInchargeVehicleList(
       {this.vEHICLETYPEID,

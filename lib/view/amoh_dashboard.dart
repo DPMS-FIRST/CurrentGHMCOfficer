@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:ghmcofficerslogin/model/shared_model.dart';
 import 'package:ghmcofficerslogin/res/components/background_image.dart';
 import 'package:ghmcofficerslogin/res/components/logo_details.dart';
 import 'package:ghmcofficerslogin/res/components/sharedpreference.dart';
-import 'package:ghmcofficerslogin/res/components/showalert.dart';
 import 'package:ghmcofficerslogin/res/components/showalert_network.dart';
 import 'package:ghmcofficerslogin/res/components/showalert_singlebutton.dart';
 import 'package:ghmcofficerslogin/res/constants/ApiConstants/api_constants.dart';
@@ -82,6 +80,7 @@ class _AmohDashboardList extends State<AmohDashboardList> {
                           var result = await Connectivity().checkConnectivity();
                           if (result == ConnectivityResult.mobile ||
                               result == ConnectivityResult.wifi) {
+                            EasyLoading.show();
                             Navigator.pushNamed(
                                 context, AppRoutes.requestbyamoh);
                           } else if (result == ConnectivityResult.none) {
@@ -106,9 +105,10 @@ class _AmohDashboardList extends State<AmohDashboardList> {
                         } else {
                           if(result == ConnectivityResult.mobile || result == ConnectivityResult.wifi)
                           {
+                          EasyLoading.show();
                           Navigator.pushNamed(
                               context, AppRoutes.amohamountpayedlist);
-                          EasyLoading.show();
+                          
                           }
                           else if (result == ConnectivityResult.none) {
                             //Navigator.pop(context);
@@ -125,9 +125,11 @@ class _AmohDashboardList extends State<AmohDashboardList> {
                         text1: 'Raise Request',
                         text2: '',
                         onTap: () async{
+                        
                           var result = await Connectivity().checkConnectivity();
                           if(result == ConnectivityResult.mobile || result == ConnectivityResult.wifi)
                           {
+                          EasyLoading.show();
                           Navigator.pushNamed(
                               context, AppRoutes.raiserequest_raiserequest);
                           }
@@ -153,6 +155,7 @@ class _AmohDashboardList extends State<AmohDashboardList> {
                           var result = await Connectivity().checkConnectivity();
                           if(result == ConnectivityResult.mobile || result == ConnectivityResult.wifi)
                           {
+                            EasyLoading.show();
                             Navigator.pushNamed(
                                 context, AppRoutes.rejectedtickets);
                           }
@@ -180,6 +183,7 @@ class _AmohDashboardList extends State<AmohDashboardList> {
                             var result = await Connectivity().checkConnectivity();
                           if(result == ConnectivityResult.mobile || result == ConnectivityResult.wifi)
                           {
+                            EasyLoading.show();
                             Navigator.pushNamed(
                                 context, AppRoutes.closedticketlist);
                           }
@@ -207,6 +211,7 @@ class _AmohDashboardList extends State<AmohDashboardList> {
                              var result = await Connectivity().checkConnectivity();
                           if(result == ConnectivityResult.mobile || result == ConnectivityResult.wifi)
                           {
+                            EasyLoading.show();
                             Navigator.pushNamed(
                                 context, AppRoutes.amohclosedticketlist);
                           }
@@ -310,7 +315,6 @@ class _AmohDashboardList extends State<AmohDashboardList> {
         });
       }
     });
-    // TODO: implement initState
     super.initState();
     fetchAmohDashboardDetails();
   }
@@ -341,8 +345,7 @@ class _AmohDashboardList extends State<AmohDashboardList> {
       final data = AMOHDashboardListResponse.fromJson(response.data);
       print(response.data);
       setState(() {
-        if(data != null)
-        {
+    
           if (data.sTATUSCODE == "200") {
           EasyLoading.dismiss();
           if (data.aMOHList != null) {
@@ -367,7 +370,6 @@ class _AmohDashboardList extends State<AmohDashboardList> {
                   Navigator.popUntil(context, ModalRoute.withName(AppRoutes.myloginpage));
               });
           },);
-        }
         }
         
       });

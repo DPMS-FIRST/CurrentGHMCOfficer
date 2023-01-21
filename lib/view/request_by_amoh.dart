@@ -302,7 +302,6 @@ class _RequestByAmohListState extends State<RequestByAmohList> {
       final data = RequestByAmohResponse.fromJson(response.data);
       print(response.data);
       setState(() {
-        if (data != null) {
           if (data.sTATUSCODE == "200") {
             EasyLoading.dismiss();
             if (data.citizenList != null) {
@@ -329,7 +328,6 @@ class _RequestByAmohListState extends State<RequestByAmohList> {
               },
             );
           }
-        }
       });
     } on DioError catch (e) {
       if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {

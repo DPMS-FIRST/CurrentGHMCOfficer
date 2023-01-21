@@ -33,7 +33,7 @@ class TicketList {
   String? lOCATION;
   String? cREATEDDATE;
   String? eSTWT;
-  Null? pAYMENTSTATUS;
+  String? pAYMENTSTATUS;
   String? wARDID;
   String? wARDNAME;
   String? cIRCLEID;
@@ -131,10 +131,10 @@ class TicketList {
 class ListVehicles {
   String? vEHICLENO;
   String? vEHICLEID;
-  Null? dRIVERNAME;
-  Null? dRIVERMOBILENUMBER;
-  Null? bEFORETRIPIMAGE;
-  Null? aFTERTRIPIMAGE;
+  String? dRIVERNAME;
+  String? dRIVERMOBILENUMBER;
+  String? bEFORETRIPIMAGE;
+  String? aFTERTRIPIMAGE;
 
   ListVehicles(
       {this.vEHICLENO,

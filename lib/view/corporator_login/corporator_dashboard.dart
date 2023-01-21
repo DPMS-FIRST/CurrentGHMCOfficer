@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -9,16 +8,14 @@ import 'package:ghmcofficerslogin/model/corporator/corporator_list_req.dart';
 import 'package:ghmcofficerslogin/model/corporator/corporator_list_response.dart';
 import 'package:ghmcofficerslogin/model/shared_model.dart';
 import 'package:ghmcofficerslogin/res/components/background_image.dart';
-import 'package:ghmcofficerslogin/res/components/grievance_row.dart';
 import 'package:ghmcofficerslogin/res/components/internetcheck.dart';
 import 'package:ghmcofficerslogin/res/components/logo_details.dart';
-import 'package:ghmcofficerslogin/res/components/navigation.dart';
 import 'package:ghmcofficerslogin/res/components/sharedpreference.dart';
 import 'package:ghmcofficerslogin/res/components/showtoasts.dart';
 import 'package:ghmcofficerslogin/res/constants/ApiConstants/api_constants.dart';
 import 'package:ghmcofficerslogin/res/constants/Images/image_constants.dart';
+import 'package:ghmcofficerslogin/res/constants/app_constants.dart';
 import 'package:ghmcofficerslogin/res/constants/routes/app_routes.dart';
-
 import 'package:ghmcofficerslogin/res/constants/text_constants/text_constants.dart';
 
 class CorporatorDashboard extends StatefulWidget {
@@ -62,39 +59,37 @@ class _CorporatorDashboardState extends State<CorporatorDashboard> {
                             final data = corporatorListResponse?.rOW?[index];
                             return GestureDetector(
                               onTap: () async {
+                               
                                 var result =
-                                    await Connectivity().checkConnectivity;
+                                    await Connectivity().checkConnectivity();
                                 // EasyLoading.show();
                                 await SharedPreferencesClass().writeTheData(
                                     PreferenceConstants.menuId, data?.iMENUID);
-                                    if(result == ConnectivityResult.wifi ||
-                                      result == ConnectivityResult.mobile ||
-                                      result == ConnectivityResult.ethernet ||
-                                      result == ConnectivityResult.vpn ||
-                                      result == ConnectivityResult.bluetooth){
-                                      Navigator.pushNamed(
-                                    context, AppRoutes.corporatorviewdoc);
-
-
-                                    }
-                                    else if(result == ConnectivityResult.none){
-                                      ShowToats.showToast(
-                                        TextConstants.internetcheck,bgcolor: Colors.white,gravity: ToastGravity.BOTTOM,textcolor: Colors.black
-                                        );
-
-                                    }
-
-                                
+                                if (result == ConnectivityResult.wifi ||
+                                    result == ConnectivityResult.mobile ||
+                                    result == ConnectivityResult.ethernet ||
+                                    result == ConnectivityResult.vpn ||
+                                    result == ConnectivityResult.bluetooth) {
+                                  Navigator.pushNamed(
+                                      context, AppRoutes.corporatorviewdoc);
+                                } else if (result == ConnectivityResult.none) {
+                                  ShowToats.showToast(
+                                      TextConstants.internetcheck,
+                                      bgcolor: Colors.white,
+                                      gravity: ToastGravity.BOTTOM,
+                                      textcolor: Colors.black);
+                                }
                               },
                               child: Column(
                                 children: [
                                   Image.network(
                                     "${data?.uRL}",
                                     height: 50,
+                                    errorBuilder:
+                                        ((context, error, stackTrace) {
+                                     return Image.asset(ImageConstants.errorimage);
+                                    }),
                                   ),
-                                  // SizedBox(
-                                  //   height: 5.0,
-                                  // ),
                                   Text(
                                     "${data?.mENUNAME}",
                                     style: TextStyle(
@@ -161,8 +156,8 @@ class _CorporatorDashboardState extends State<CorporatorDashboard> {
     CorporatorListReq corporatorListReq = new CorporatorListReq();
     print(empID);
     corporatorListReq.empid = empID;
-    corporatorListReq.userid = "cgg@ghmc";
-    corporatorListReq.password = "ghmc@cgg@2018";
+    corporatorListReq.userid = AppConstants.userid;
+    corporatorListReq.password = AppConstants.password;
     var requestPayload = corporatorListReq.toJson();
 
     //no headers and authorization

@@ -250,7 +250,6 @@ class _AmohClosedTicketListState extends State<AmohClosedTicketList> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getdetails();
   }
@@ -282,8 +281,6 @@ class _AmohClosedTicketListState extends State<AmohClosedTicketList> {
       final data = AmohClosedTicketsListResponse.fromJson(response.data);
       print(response.data);
       setState(() {
-        if(data != null)
-        {
         if (data.sTATUSCODE == "200") {
           EasyLoading.dismiss();
           if (data.ticketList != null) {
@@ -309,7 +306,6 @@ class _AmohClosedTicketListState extends State<AmohClosedTicketList> {
                   Navigator.popUntil(context, ModalRoute.withName(AppRoutes.myloginpage));
               });
           },);
-        }
         }
       });
     } on DioError catch (e) {

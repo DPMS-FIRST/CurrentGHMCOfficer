@@ -12,4 +12,7 @@ class ImageConstants
   //full grievance page
   static const String viewimage = "assets/viewimage.png";
   static const String viewpdf = "assets/viewpdf.png";
+  static const String errorimage = "assets/errorimage.png";
+  static const String cross = "assets/cross.png";
+  static const String check = "assets/check.png";
 }

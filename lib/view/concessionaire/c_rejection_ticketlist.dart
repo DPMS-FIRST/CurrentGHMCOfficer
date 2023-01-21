@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ghmcofficerslogin/model/crejection_ticketlist_res.dart';
 import 'package:ghmcofficerslogin/model/crejectionlist_req.dart';
 import 'package:ghmcofficerslogin/model/shared_model.dart';
@@ -14,7 +12,6 @@ import 'package:ghmcofficerslogin/res/components/sharedpreference.dart';
 import 'package:ghmcofficerslogin/res/components/showtoast.dart';
 import 'package:ghmcofficerslogin/res/constants/ApiConstants/api_constants.dart';
 import 'package:ghmcofficerslogin/res/constants/Images/image_constants.dart';
-import 'package:ghmcofficerslogin/res/constants/routes/app_routes.dart';
 import 'package:ghmcofficerslogin/res/constants/text_constants/text_constants.dart';
 
 class CRejectionTicketlist extends StatefulWidget {
@@ -185,7 +182,6 @@ class _CRejectionTicketlistState extends State<CRejectionTicketlist> {
   @override
   void initState() {
     NetCheck();
-    // TODO: implement initState
     super.initState();
 
     getdetails();

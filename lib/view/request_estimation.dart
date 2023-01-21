@@ -748,7 +748,6 @@ class _RequestEstimationState extends State<RequestEstimation> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getRequestEstimationDetails();
     getVehicleType();
@@ -803,7 +802,7 @@ class _RequestEstimationState extends State<RequestEstimation> {
 
       //print("status code is ${e.response?.statusCode}");
     }
-
+/* 
     getVehicleType() async {
       const requestUrl =
           ApiConstants.cndw_baseurl + ApiConstants.get_vehicle_type;
@@ -814,7 +813,7 @@ class _RequestEstimationState extends State<RequestEstimation> {
         final response = await dioObject.get(
           requestUrl,
         );
-        var len = response.data.length;
+        //var len = response.data.length;
         //converting response from String to json
         final data = GetVehiclesResponse.fromJson(response.data);
         //print(response.data);
@@ -823,10 +822,10 @@ class _RequestEstimationState extends State<RequestEstimation> {
           if (data.sTATUSCODE == "200") {
             EasyLoading.dismiss();
             getVehiclesResponse = data;
-            if (getVehiclesResponse?.vEHICLELIST != null) {
+            /* if (getVehiclesResponse?.vEHICLELIST != null) {
               var vehicletypelistlen =
                   getVehiclesResponse?.vEHICLELIST?.length ?? 0;
-            }
+            } */
           } else if (data.sTATUSCODE == "600") {}
         });
       } on DioError catch (e) {
@@ -838,7 +837,7 @@ class _RequestEstimationState extends State<RequestEstimation> {
 
         //print("status code is ${e.response?.statusCode}");
       }
-    }
+    } */
   }
 
   getRequestEstimationDetails() async {
@@ -894,7 +893,7 @@ class _RequestEstimationState extends State<RequestEstimation> {
       final response = await dioObject.get(
         requestUrl,
       );
-      var len = response.data.length;
+      //var len = response.data.length;
       //converting response from String to json
       final data = GetVehiclesResponse.fromJson(response.data);
       //print(response.data);

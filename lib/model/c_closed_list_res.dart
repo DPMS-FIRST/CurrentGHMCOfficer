@@ -32,16 +32,16 @@ class TicketList {
   String? lOCATION;
   String? tICKETRAISEDDATE;
   String? tICKETCLOSEDDATE;
-  Null? zONEID;
+  String? zONEID;
   String? zONENAME;
-  Null? cIRCLEID;
+  String? cIRCLEID;
   String? cIRCLENAME;
-  Null? wARDID;
+  String? wARDID;
   String? wARDNAME;
   String? cONCESSIONERNAME;
-  Null? tYPEOFWASTE;
+  String? tYPEOFWASTE;
   String? sTATUS;
-  Null? iMAGE1PATH;
+  String? iMAGE1PATH;
   List<ListVehicles>? listVehicles;
 
   TicketList(
@@ -110,10 +110,10 @@ class TicketList {
 class ListVehicles {
   String? vEHICLENO;
   String? vEHICLEID;
-  Null? dRIVERNAME;
-  Null? dRIVERMOBILENUMBER;
-  Null? bEFORETRIPIMAGE;
-  Null? aFTERTRIPIMAGE;
+  String? dRIVERNAME;
+  String? dRIVERMOBILENUMBER;
+  String? bEFORETRIPIMAGE;
+  String? aFTERTRIPIMAGE;
 
   ListVehicles(
       {this.vEHICLENO,

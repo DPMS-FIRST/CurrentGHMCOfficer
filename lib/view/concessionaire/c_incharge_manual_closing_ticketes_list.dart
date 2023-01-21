@@ -1,12 +1,9 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ghmcofficerslogin/model/concessioner/concessionaire_incharge_manual_closing_tickets_res.dart';
-
 import 'package:ghmcofficerslogin/model/shared_model.dart';
 import 'package:ghmcofficerslogin/res/components/internetcheck.dart';
 import 'package:ghmcofficerslogin/res/components/sharedpreference.dart';
@@ -218,7 +215,7 @@ class _ConcessionaireInchargeManualClosingTicketsListState
   @override
   void initState() {
     NetCheck();
-    // TODO: implement initState
+
     super.initState();
     Getdetails();
     // print(Constants.concessionaireInchargeManualClosingTicketlist[0].cIRCLEID);

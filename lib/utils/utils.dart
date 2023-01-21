@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -28,7 +27,7 @@ class Utils {
     return null;
   }
 
-  Future<bool?> checkInternetConnection(BuildContext context) async {
+  /* Future<bool?> checkInternetConnection(BuildContext context) async {
     var result = await Connectivity().checkConnectivity();
     if (result == ConnectivityResult.mobile ||
         result == ConnectivityResult.wifi) {
@@ -36,5 +35,5 @@ class Utils {
     } else if (result == ConnectivityResult.none) {
       return false;
     }
-  }
+  } */
 }

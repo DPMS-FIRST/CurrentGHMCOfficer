@@ -22,7 +22,6 @@ class _NetCheckState extends State<NetCheck> {
   @override
   void initState() {
      InternetCheck();
-    // TODO: implement initState
     super.initState();
    
   }

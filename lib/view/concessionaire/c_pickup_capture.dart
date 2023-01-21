@@ -616,7 +616,6 @@ class _ConcessionairePickupCaptureState
   @override
   void initState() {
     NetCheck();
-    // TODO: implement initState
     super.initState();
     // print("item list ${Constants.ticktetitemslist?.tICKETID}");
 
@@ -801,8 +800,7 @@ class _ConcessionairePickupCaptureState
                             color: Color.fromARGB(255, 139, 33, 25)),
                         child: TextButton(
                           onPressed: () async {
-                            var result =
-                                await Connectivity().checkConnectivity();
+                           
                             setState(() {
                               submit_no = true;
                               is_yes_flag = "Y";

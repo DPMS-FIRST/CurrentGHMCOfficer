@@ -3,7 +3,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ghmcofficerslogin/model/plant_operator/get_plant_operator_response.dart';
 import 'package:ghmcofficerslogin/res/components/background_image.dart';
 import 'package:ghmcofficerslogin/res/components/searchbar.dart';
-import 'package:ghmcofficerslogin/res/components/textwidget.dart';
 import 'package:ghmcofficerslogin/res/constants/Images/image_constants.dart';
 import 'package:ghmcofficerslogin/res/constants/app_constants.dart';
 import 'package:ghmcofficerslogin/res/constants/routes/app_routes.dart';
@@ -17,7 +16,7 @@ class PlantOperatorList extends StatefulWidget {
 }
 
 class _PlantOperatorListState extends State<PlantOperatorList> {
-  GetPlantOperatorVehicleTripResponse? _getPlantResponse;
+  //GetPlantOperatorVehicleTripResponse? _getPlantResponse;
   List<OperatorVehicleList>? operatorVehicleList;
   //List<OperatorVehicleList>? operatorVehicleListResponseList = [];
   // List<OperatorVehicleList> operatorVehicleListSearchListResponse = [];
@@ -251,7 +250,7 @@ class _PlantOperatorListState extends State<PlantOperatorList> {
     //getdetails();
   }
 
-  getdetails() async {
+  /* getdetails() async {
     showAlert(String message, {String text = ""}) {
       showDialog(
           context: context,
@@ -280,5 +279,5 @@ class _PlantOperatorListState extends State<PlantOperatorList> {
             );
           }); //showDialog
     } //
-  }
+  } */
 }

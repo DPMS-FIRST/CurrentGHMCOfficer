@@ -33,11 +33,11 @@ class TicketList {
   String? lOCATION;
   String? tICKETRAISEDDATE;
   String? tICKETCLOSEDDATE;
-  Null? zONEID;
+  String? zONEID;
   String? zONENAME;
-  Null? cIRCLEID;
+  String? cIRCLEID;
   String? cIRCLENAME;
-  Null? wARDID;
+  String? wARDID;
   String? wARDNAME;
   String? cONCESSIONERNAME;
   String? tYPEOFWASTE;

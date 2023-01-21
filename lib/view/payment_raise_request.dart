@@ -344,8 +344,7 @@ class _RaiseRequestState extends State<RaiseRequest> {
       final data = RaiseRequestSubmitResponse.fromJson(response.data);
       print(response.data);
       setState(() {
-        if(data != null)
-        {
+      
         if (data.sTATUSCODE == "200") {
           EasyLoading.dismiss();
           raiseRequestSubmitResponse = data;
@@ -367,7 +366,6 @@ class _RaiseRequestState extends State<RaiseRequest> {
                   Navigator.popUntil(context, ModalRoute.withName(AppRoutes.myloginpage));
               });
           },);
-        }
         }
       });
     } on DioError catch (e) {

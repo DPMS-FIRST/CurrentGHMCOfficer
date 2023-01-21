@@ -31,7 +31,7 @@ class _VehicleTripDetailsState extends State<VehicleTripDetails> {
   TextEditingController netWtController = TextEditingController(text: "34444");
 
   WeighBridgeDetailsResponse? _weighBridgeDetailsResponse;
-  PlantOperatorSubmitResponse? _plantOperatorSubmitResponse;
+  //PlantOperatorSubmitResponse? _plantOperatorSubmitResponse;
   FocusNode myFocusNode = new FocusNode();
   bool flag = false, readvalue = false;
   String? grossWt = "", tareWt = "", netwt = "";

@@ -35,7 +35,7 @@ class _CheckStatusState extends State<CheckStatus> {
   List<Map<String, String>> d = [];
   List customers = [""];
   dynamic jsonResult;
-  dynamic? list;
+  dynamic list;
   var check;
 
   var count = 0;
@@ -197,10 +197,10 @@ class _CheckStatusState extends State<CheckStatus> {
       // print(check_status_response.data);
 
       final data = checkStatusResponse.fromJson(check_status_response.data);
-      final j = data.toJson;
+      //final j = data.toJson;
       // print(j);
       setState(() {
-        if (data != null && data.status == "success") {
+        if (data.status == "success") {
           EasyLoading.dismiss();
           _statusResponse = data;
         }

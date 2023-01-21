@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ghmcofficerslogin/model/c_closed_list_req.dart';
 import 'package:ghmcofficerslogin/model/c_closed_list_res.dart';
 import 'package:ghmcofficerslogin/model/shared_model.dart';
@@ -11,7 +9,6 @@ import 'package:ghmcofficerslogin/res/components/internetcheck.dart';
 import 'package:ghmcofficerslogin/res/components/searchbar.dart';
 import 'package:ghmcofficerslogin/res/components/showtoasts.dart';
 import 'package:ghmcofficerslogin/res/constants/ApiConstants/api_constants.dart';
-import 'package:ghmcofficerslogin/res/constants/routes/app_routes.dart';
 import '../../res/components/background_image.dart';
 import '../../res/components/sharedpreference.dart';
 import '../../res/constants/Images/image_constants.dart';
@@ -211,7 +208,6 @@ class _CClosedListState extends State<CClosedList> {
   @override
   void initState() {
     NetCheck();
-    // TODO: implement initState
     super.initState();
     getdetails();
   }

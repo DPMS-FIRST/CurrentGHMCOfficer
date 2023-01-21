@@ -1,5 +1,3 @@
-
-import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -20,7 +18,6 @@ class AbstractReport extends StatefulWidget {
 }
 
 class _AbstractReportState extends State<AbstractReport> {
-  final _random = Random();
   AbstractReportResponse? abstractReportResponse;
   List type = [];
   @override

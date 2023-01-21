@@ -1,7 +1,7 @@
 class CManualClosingTicketsSubmitRes {
   String? sTATUSCODE;
   String? sTATUSMESSAGE;
-  Null? cNDWGRIEVANCEID;
+  String? cNDWGRIEVANCEID;
 
   CManualClosingTicketsSubmitRes(
       {this.sTATUSCODE, this.sTATUSMESSAGE, this.cNDWGRIEVANCEID});

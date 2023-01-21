@@ -16,9 +16,6 @@ import 'package:ghmcofficerslogin/res/constants/text_constants/text_constants.da
 import 'package:ghmcofficerslogin/view/image_view.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-
-import '../../res/components/datepicker.dart';
 
 class CorporatorViewDoc extends StatefulWidget {
   const CorporatorViewDoc({super.key});
@@ -33,7 +30,7 @@ class _CorporatorViewDocState extends State<CorporatorViewDoc> {
   TextEditingController _dateController = TextEditingController();
   bool date = false;
   //var _selectedDate;
-  final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
+  //final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
   FocusNode myFocusNode = new FocusNode();
   @override
   Widget build(BuildContext context) {
@@ -147,7 +144,6 @@ class _CorporatorViewDocState extends State<CorporatorViewDoc> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getCorporatorReportDetails();
   }

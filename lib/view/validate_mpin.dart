@@ -200,7 +200,7 @@ class _MpinState extends State<Mpin> {
 
    @override
   void initState() {
-    // TODO: implement initState
+
     connection = Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult result) {

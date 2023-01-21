@@ -304,7 +304,6 @@ class _RejectOrReassignState extends State<RejectOrReassign> {
   @override
   void initState() {
     rejectReassignSubmit();
-    // TODO: implement initState
     super.initState();
     
   }

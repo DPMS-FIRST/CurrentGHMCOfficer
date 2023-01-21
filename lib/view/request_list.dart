@@ -285,7 +285,6 @@ class _RequestListState extends State<RequestList> {
         });
     }
 });
-    // TODO: implement initState
     super.initState();
     getdetails();
   }
@@ -316,8 +315,6 @@ class _RequestListState extends State<RequestList> {
       final data = RequestListResponse.fromJson(response.data);
       print(response.data);
       setState(() {
-        if(data != null)
-        {
           if (data.sTATUSCODE == "200") {
           EasyLoading.dismiss();
           if (data.aMOHList != null) {
@@ -344,8 +341,6 @@ class _RequestListState extends State<RequestList> {
               });
           },);
         }
-        }
-        
       });
     } on DioError catch (e) {
       if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {

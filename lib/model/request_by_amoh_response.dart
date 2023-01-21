@@ -32,7 +32,7 @@ class CitizenList {
   String? tICKETID;
   String? lOCATION;
   String? iMAGE1PATH;
-  Null? eSTWT;
+  String? eSTWT;
   String? cREATEDDATE;
   String? sTATUS;
   String? sTATUSID;

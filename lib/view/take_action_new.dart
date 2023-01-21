@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ import 'package:ghmcofficerslogin/model/get_ward_response.dart';
 import 'package:ghmcofficerslogin/model/shared_model.dart';
 import 'package:ghmcofficerslogin/model/takeaction_response.dart';
 import 'package:ghmcofficerslogin/model/update_grievance_response.dart';
-import 'package:ghmcofficerslogin/res/components/appbar.dart';
 import 'package:ghmcofficerslogin/res/components/background_image.dart';
 import 'package:ghmcofficerslogin/res/components/border_textfield.dart';
 import 'package:ghmcofficerslogin/res/components/sharedpreference.dart';
@@ -24,7 +22,6 @@ import 'package:ghmcofficerslogin/res/constants/app_constants.dart';
 import 'package:ghmcofficerslogin/res/constants/routes/app_routes.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../res/components/textwidget.dart';
 import '../res/constants/Images/image_constants.dart';
 import '../res/constants/providers/provider_notifiers.dart';
@@ -41,13 +38,14 @@ class _TakeActionNewState extends State<TakeActionNew> {
   StreamSubscription? connection;
   bool isoffline = false;
 
-  final _formKey = GlobalKey<FormState>();
+  //final _formKey = GlobalKey<FormState>();
   FocusNode mobilenofocusnode = new FocusNode();
   FocusNode emailidfocusnode = new FocusNode();
   FocusNode fineamountfocusnode = new FocusNode();
   FocusNode amountfocusnode = new FocusNode();
   FocusNode proofidfocusnode = new FocusNode();
   FocusNode tradenamefocusnode = new FocusNode();
+  FocusNode enterremarksfocusnode = new FocusNode();
 
   TextEditingController mobileno = TextEditingController();
   TextEditingController emailid = TextEditingController();
@@ -59,6 +57,7 @@ class _TakeActionNewState extends State<TakeActionNew> {
   TextEditingController _controller = TextEditingController();
   bool modeidflag = false;
   var modeid;
+  bool enterremarksflag = false;
   bool enabledropdown = false;
   var phototype = "";
   List RamkyItems = [];
@@ -101,7 +100,7 @@ class _TakeActionNewState extends State<TakeActionNew> {
             onPressed: (() {
               Navigator.of(context).pop();
               takeActionTypes1.value = "select";
-                    ramkyvalues1.value = "select";
+              ramkyvalues1.value = "select";
             })),
         title: Center(
           child: Text(
@@ -251,34 +250,56 @@ class _TakeActionNewState extends State<TakeActionNew> {
                                 updateGrievanceDetails();
                                 if (tradename.text.isEmpty) {
                                   ShowToats.showToast(
-                                      "please enter trade name");
+                                      "please enter trade name",
+                                      gravity: ToastGravity.BOTTOM,
+                                      bgcolor: Colors.white,
+                                      textcolor: Colors.black
+                                      );
                                 } else if (takeactionIdproofsDropdown.value ==
                                     "select") {
                                   ShowToats.showToast(
-                                      "please select idproof type");
+                                      "please select idproof type",
+                                      gravity: ToastGravity.BOTTOM,
+                                      bgcolor: Colors.white,
+                                      textcolor: Colors.black
+                                      );
                                 } else if (proofid.text.isEmpty) {
-                                  ShowToats.showToast("please enter proof id");
+                                  ShowToats.showToast("please enter proof id",
+                                  gravity: ToastGravity.BOTTOM,
+                                      bgcolor: Colors.white,
+                                      textcolor: Colors.black
+                                  );
                                 } else if (mobileno.text.isEmpty) {
-                                  ShowToats.showToast("please enter mobile no");
+                                  ShowToats.showToast("please enter mobile no",
+                                  gravity: ToastGravity.BOTTOM,
+                                      bgcolor: Colors.white,
+                                      textcolor: Colors.black
+                                  );
                                 } else if (emailid.text.isEmpty) {
-                                  ShowToats.showToast("please enter email ");
+                                  ShowToats.showToast("please enter email ",
+                                  gravity: ToastGravity.BOTTOM,
+                                      bgcolor: Colors.white,
+                                      textcolor: Colors.black
+                                  );
                                 } else if (fineamount.text.isEmpty) {
                                   ShowToats.showToast(
-                                      "please enter fine  amount");
+                                      "please enter fine  amount",
+                                      gravity: ToastGravity.BOTTOM,
+                                      bgcolor: Colors.white,
+                                      textcolor: Colors.black
+                                      );
                                 } else if (amount.text.isEmpty) {
                                   ShowToats.showToast(
-                                      "please enter total amount");
+                                      "please enter total amount",
+                                      gravity: ToastGravity.BOTTOM,
+                                      bgcolor: Colors.white,
+                                      textcolor: Colors.black);
                                 } else {
-                                  getStaffshowAlert(
-                                      "${_updateGrievanceResponse?.compid}");
+                                  print(
+                                      "msg ${_updateGrievanceResponse?.compid}");
+                                  // getStaffshowAlert(
+                                  //     "${_updateGrievanceResponse?.compid}");
                                 }
-
-                                /*  ShowToats.showToast(
-                                    "${_updateGrievanceResponse?.compid}",
-                                    textcolor: Colors.black,
-                                    bgcolor: Colors.amber,
-                                    gravity: ToastGravity.CENTER); */
-                                // Alerts.showAlertDialog(context, "Thanks for updating", Title: "Alert", onpressed: (){});
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.transparent),
@@ -324,17 +345,15 @@ class _TakeActionNewState extends State<TakeActionNew> {
                                     (val) {
                                       return DropdownMenuItem<String>(
                                         value: val,
-                                        child: Text("  $val"),
+                                        child: Text("  ${items[val]}"),
                                       );
                                     },
                                   ).toList(),
                                   onChanged: (val) {
-                                    print(" $val");
-                                    print("id ${items[val]}");
-                                    takeaction_statusid = items[val];
-                                    takeActionTypes1.value = "$val";
+                                    takeaction_statusid = "${val}";
+                                    takeActionTypes1.value = "${items[val]}";
 
-                                    if (val == "Forward to Ramky") {
+                                    if (val == "10") {
                                       RamkyItems = [
                                         "select",
                                         "Claimed",
@@ -344,14 +363,12 @@ class _TakeActionNewState extends State<TakeActionNew> {
                                         enabledropdown = true;
                                         ramkyvalues1.value = "select";
                                       });
-                                    } else if (val ==
-                                        "Forward to Lower Staff") {
+                                    } else if (val == "15") {
                                       getStaffshowAlert("${_getStaff?.tag}");
                                       setState(() {
                                         enabledropdown = false;
                                       });
-                                    } else if (val ==
-                                        "Forward to another ward") {
+                                    } else if (val == "4") {
                                       RamkyItems = warditems;
                                       setState(() {
                                         enabledropdown = true;
@@ -370,28 +387,23 @@ class _TakeActionNewState extends State<TakeActionNew> {
                     ),
                     enabledropdown ? subDropdown() : Text(""),
                     Center(
-                      child: Container(
-                        color: Colors.white,
-                        height: MediaQuery.of(context).size.height * 0.15,
-                        width: MediaQuery.of(context).size.width * 0.88,
-                        constraints: BoxConstraints(maxHeight: 200),
-                        child: SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Form(
-                              key: _formKey,
-                              child: TextFormField(
-                                controller: _controller,
-                                maxLines: null,
-                                decoration: new InputDecoration.collapsed(
-                                    hintText: "Enter Your Remarks",
-                                    hintStyle: TextStyle(color: Colors.grey)),
-                              ),
-                            ),
-                          ),
+                        child: Container(
+                      color: Colors.white,
+                      height: MediaQuery.of(context).size.height * 0.15,
+                      width: MediaQuery.of(context).size.width * 0.88,
+                      child: SizedBox(
+                        height: 100,
+                        child: TextField(
+                          maxLines: null,
+                          controller: _controller,
+                          decoration: new InputDecoration(
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.only(left: 8.0),
+                              hintText: "Enter Your Remarks",
+                              hintStyle: TextStyle(color: Colors.grey)),
                         ),
                       ),
-                    ),
+                    )),
                     SizedBox(height: 40),
                     _image != null
                         ? GestureDetector(
@@ -431,69 +443,102 @@ class _TakeActionNewState extends State<TakeActionNew> {
                     child: Card(
                       color: Colors.transparent,
                       child: ElevatedButton(
-                          onPressed: () async{
-                            var result = await Connectivity().checkConnectivity();
-                            if(result == ConnectivityResult.mobile || result == ConnectivityResult.wifi)
-                            {
-                            updateGrievanceDetails();
-                            print("id on submit ${takeaction_statusid}");
-
-                            if (_controller.text.isEmpty) {
-                              showToast("please enter remarks");
-                            }
-                            switch (takeActionTypes1.value) {
-                              case "select":
-                                showToast("please select complaint status");
-
-                                break;
-                              case "Resolved by Officer":
-                                if (_image?.path == null) {
-                                  showToast("please select image");
-                                } else {
-                                  getStaffshowAlert(
-                                      "${_updateGrievanceResponse?.compid}");
+                          onPressed: () async {
+                            var result =
+                                await Connectivity().checkConnectivity();
+                            if (result == ConnectivityResult.mobile ||
+                                result == ConnectivityResult.wifi) {
+                              await updateGrievanceDetails();
+                              items.forEach((key, value) {
+                                if (value == takeActionTypes1.value) {
+                                  var check = key;
+                                  switch (check) {
+                                    case "0":
+                                      ShowToats.showToast(
+                                          "please select complaint status",
+                                          gravity: ToastGravity.BOTTOM,
+                                          bgcolor: Colors.white,
+                                          textcolor: Colors.black);
+                                      break;
+                                    case "1":
+                                      if (_controller.text.isEmpty) {
+                                        ShowToats.showToast(
+                                            "please enter remarks",
+                                            gravity: ToastGravity.BOTTOM,
+                                            bgcolor: Colors.white,
+                                            textcolor: Colors.black);
+                                      } else if (_image?.path == null) {
+                                        ShowToats.showToast(
+                                            "please select image",
+                                            gravity: ToastGravity.BOTTOM,
+                                            bgcolor: Colors.white,
+                                            textcolor: Colors.black);
+                                      } else {
+                                        getStaffshowAlert(
+                                            "${_updateGrievanceResponse?.compid}");
+                                      }
+                                      break;
+                                    case "4":
+                                      if (ramkyvalues1.value == "select") {
+                                        ShowToats.showToast(
+                                            "please select sub complaint status",
+                                            gravity: ToastGravity.BOTTOM,
+                                            bgcolor: Colors.white,
+                                            textcolor: Colors.black);
+                                      } else if (_controller.text.isEmpty) {
+                                        ShowToats.showToast(
+                                            "please enter remarks",
+                                            gravity: ToastGravity.BOTTOM,
+                                            bgcolor: Colors.white,
+                                            textcolor: Colors.black);
+                                      } else {
+                                        getStaffshowAlert(
+                                            "${_updateGrievanceResponse?.compid}");
+                                      }
+                                      break;
+                                    case "10":
+                                      if (ramkyvalues1.value == "select") {
+                                        ShowToats.showToast(
+                                            "please select status",
+                                            gravity: ToastGravity.BOTTOM,
+                                            bgcolor: Colors.white,
+                                            textcolor: Colors.black);
+                                      } else if (_controller.text.isEmpty) {
+                                        ShowToats.showToast(
+                                            "please enter remarks",
+                                            gravity: ToastGravity.BOTTOM,
+                                            bgcolor: Colors.white,
+                                            textcolor: Colors.black);
+                                      } else {
+                                        getStaffshowAlert(
+                                            "${_updateGrievanceResponse?.compid}");
+                                      }
+                                      break;
+                                    default:
+                                      if (_controller.text.isEmpty) {
+                                        ShowToats.showToast(
+                                            "please enter remarks",
+                                            gravity: ToastGravity.BOTTOM,
+                                            bgcolor: Colors.white,
+                                            textcolor: Colors.black);
+                                      } else {
+                                        getStaffshowAlert(
+                                            "${_updateGrievanceResponse?.compid}");
+                                      }
+                                  }
                                 }
-
-                                break;
-                              case "Forward to another ward":
-                                if (ramkyvalues1.value == "select") {
-                                  showToast(
-                                      "please select sub complaint status");
-                                } else {
-                                  getStaffshowAlert(
-                                      "${_updateGrievanceResponse?.compid}");
-                                }
-
-                                break;
-                              case "Forward to Ramky":
-                                if (ramkyvalues1.value == "select") {
-                                  showToast("please select status");
-                                } else {
-                                  getStaffshowAlert(
-                                      "${_updateGrievanceResponse?.compid}");
-                                }
-
-                                break;
-
-                              default:
-                                getStaffshowAlert(
-                                    "${_updateGrievanceResponse?.compid}");
-                            }
-                          }
-                          else if(result == ConnectivityResult.none)
-                          {
-                            ShowToats.showToast(
-                                    "Check your internet connection", 
-                                  gravity:  ToastGravity.BOTTOM,
+                              });
+                            } else if (result == ConnectivityResult.none) {
+                              ShowToats.showToast(
+                                  "Check your internet connection",
+                                  gravity: ToastGravity.BOTTOM,
                                   bgcolor: Colors.white,
-                                  textcolor: Colors.black
-                            );
-                          }
+                                  textcolor: Colors.black);
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent),
-                          child: Text("Submit")
-                          ),
+                          child: Text("Submit")),
                     ),
                   ),
                 ),
@@ -504,7 +549,6 @@ class _TakeActionNewState extends State<TakeActionNew> {
 
   @override
   void initState() {
-
     connection = Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult result) {
@@ -536,19 +580,18 @@ class _TakeActionNewState extends State<TakeActionNew> {
         });
       }
     });
-
-    super.initState();
     fetchDetails();
     ForwarToLowerStaffDetails();
     GetWardDetails();
-// updateGrievanceDetails();
     _getCurrentPosition();
+    super.initState();
   }
 
   fetchDetails() async {
     // modeid = "15";
-    var modeid = await SharedPreferencesClass()
+    modeid = await SharedPreferencesClass()
         .readTheData(PreferenceConstants.userdetails);
+    print("mode id ${modeid}");
     if (modeid == "15") {
       setState(() {
         modeidflag = true;
@@ -585,7 +628,7 @@ class _TakeActionNewState extends State<TakeActionNew> {
             EasyLoading.dismiss();
             takeActionModel = data;
             // print("status id ${takeActionModel?.id}");
-            items[takeActionModel?.type] = takeActionModel?.id;
+            items[takeActionModel?.id] = takeActionModel?.type;
             // items.add(data.type.toString());
             // print(items);
           }
@@ -633,8 +676,8 @@ class _TakeActionNewState extends State<TakeActionNew> {
       //
       //print(data.tag);
       if (data.status == "true") {
-        EasyLoading.dismiss();
         setState(() {
+          EasyLoading.dismiss();
           _getWard = data;
         });
         print(_getWard?.tag);
@@ -642,9 +685,10 @@ class _TakeActionNewState extends State<TakeActionNew> {
         var ward_len = _getWard?.data?.length ?? 0;
         // print(ward_len);
 
-        for (var i = 0; i < ward_len; i++) {
+        for (var i = 1; i < ward_len; i++) {
           // print(_getWard!.data![i].ward);
           warditems.add(_getWard!.data![i].ward.toString());
+          
         }
       }
       // print(warditems);
@@ -654,6 +698,7 @@ class _TakeActionNewState extends State<TakeActionNew> {
   }
 
   updateGrievanceDetails() async {
+    print("mode in grievance  ${modeid}");
     var compid = await SharedPreferencesClass()
         .readTheData(PreferenceConstants.historydetails);
     const url = ApiConstants.baseurl + ApiConstants.update_grievance_end_point;
@@ -677,13 +722,13 @@ class _TakeActionNewState extends State<TakeActionNew> {
       // "17.4366254,78.3608523"
       "deviceid": "5ed6cd80c2bf361b",
       "no_of_trips": "",
-      "total_net_weight": amount.text ?? "",
+      "total_net_weight": amount.text,
       "trader_name": tradename.text,
-      "id_proof_type": takeactionIdproofsDropdown.value ?? "",
-      "id_proof_no": proofid.text ?? "",
-      "nmos_mobile_no": mobileno ?? "",
-      "email": emailid.text ?? "",
-      "fine_amount": fineamount.text ?? "",
+      "id_proof_type": takeactionIdproofsDropdown.value,
+      "id_proof_no": proofid.text,
+      "nmos_mobile_no": "",
+      "email": emailid.text,
+      "fine_amount": fineamount.text,
       "source": modeid,
       "vehicleNo": "",
       "photo": "",
@@ -696,14 +741,21 @@ class _TakeActionNewState extends State<TakeActionNew> {
     try {
       final _response = await _dioObject.post(url, data: payload);
       final data = UpdateGrievanceResponse.fromJson(_response.data);
+      print(_response.data);
 
       setState(() {
-        EasyLoading.dismiss();
-        _updateGrievanceResponse = data;
+       
+        if (data != null) {
+           EasyLoading.dismiss();
+          _updateGrievanceResponse = data;
+        } else {
+          Alerts.showAlertDialog(context, "No data available",
+              Title: "GHMC OFFICER APP", onpressed: () {
+            Navigator.popUntil(
+                context, ModalRoute.withName(AppRoutes.myloginpage));
+          }, buttontext: "Ok", buttoncolor: Colors.red);
+        }
       });
-
-      //  print(" update grievance data ${_updateGrievanceResponse?.status}");
-      //
     } on DioError catch (e) {
       print(e);
     }
@@ -711,6 +763,7 @@ class _TakeActionNewState extends State<TakeActionNew> {
 
   getStaffshowAlert(String message, {String text = ""}) {
     showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
@@ -734,8 +787,8 @@ class _TakeActionNewState extends State<TakeActionNew> {
                       Navigator.pushNamed(context, AppRoutes.takeaction);
                     } else if (_updateGrievanceResponse?.status == "True") {
                       Navigator.pushNamed(context, AppRoutes.ghmcdashboard);
-                       takeActionTypes1.value = "select";
-                    ramkyvalues1.value = "select";
+                      takeActionTypes1.value = "select";
+                      ramkyvalues1.value = "select";
                     }
                   }
                 },
@@ -899,3 +952,5 @@ class _TakeActionNewState extends State<TakeActionNew> {
     });
   }
 }
+// Failed to update complaint 3012222534512
+// False

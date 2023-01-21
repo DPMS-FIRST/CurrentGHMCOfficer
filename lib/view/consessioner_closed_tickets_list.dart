@@ -237,7 +237,6 @@ class _ConsessionerClosedTicketListState
   
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getdetails();
   }
@@ -265,8 +264,7 @@ class _ConsessionerClosedTicketListState
       final data = ConcessionerClosedTicketsListResponse.fromJson(response.data);
       print(response.data);
       setState(() {
-        if(data != null)
-        {
+       
         if (data.sTATUSCODE == "200") {
           EasyLoading.dismiss();
           if (data.ticketList != null) {
@@ -292,7 +290,6 @@ class _ConsessionerClosedTicketListState
                   Navigator.popUntil(context, ModalRoute.withName(AppRoutes.myloginpage));
               });
           },);
-        }
         }
       });
     } on DioError catch (e) {

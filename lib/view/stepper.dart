@@ -26,7 +26,7 @@ class StepperPage extends StatelessWidget {
 
   Widget build(BuildContext context) {
   
-  int _curStep = 1;
+  //int _curStep = 1;
     return Card(
         // width: this._width,
         child: Column(
@@ -50,8 +50,8 @@ class StepperPage extends StatelessWidget {
     var list = <Widget>[];
     _titles.asMap().forEach((i, icon) {
       var circleColor = (i == 0 || _curStep > i + 1) ? _activeColor : _inactiveColor;
-      var lineColor = _curStep > i + 1 ? _activeColor : _inactiveColor;
-      var iconColor = (i == 0 || _curStep > i + 1) ? _activeColor : _inactiveColor;
+      // var lineColor = _curStep > i + 1 ? _activeColor : _inactiveColor;
+      // var iconColor = (i == 0 || _curStep > i + 1) ? _activeColor : _inactiveColor;
 
       list.add(
         Container(

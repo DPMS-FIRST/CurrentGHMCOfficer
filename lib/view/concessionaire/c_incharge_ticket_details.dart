@@ -301,7 +301,6 @@ class _CInchargeTicketDetailsState extends State<CInchargeTicketDetails> {
   @override
   void initState() {
     NetCheck();
-    // TODO: implement initState
     super.initState();
   }
 

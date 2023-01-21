@@ -42,7 +42,6 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     startDownloading();
   }

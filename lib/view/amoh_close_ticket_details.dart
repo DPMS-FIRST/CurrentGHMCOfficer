@@ -383,7 +383,6 @@ class _AmohCloseTicketDetailsState extends State<AmohCloseTicketDetails> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     amohClosedTicketSubmit();
   }
@@ -413,7 +412,6 @@ try {
       final data = AmohCloseTicketDetailsSubmitResponse.fromJson(response.data);
       print(response.data);
       setState(() {
-        if(data != null){
         if (data.sTATUSCODE == "200") {
           EasyLoading.dismiss();
             amohCloseTicketDetailsSubmitResponse = data;
@@ -440,7 +438,6 @@ try {
                   Navigator.popUntil(context, ModalRoute.withName(AppRoutes.myloginpage));
               });
           },);
-        }
         }
       });
     } on DioError catch (e) {

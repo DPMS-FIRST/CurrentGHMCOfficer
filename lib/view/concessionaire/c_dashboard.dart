@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +12,6 @@ import 'package:ghmcofficerslogin/res/components/textwidget.dart';
 import 'package:ghmcofficerslogin/res/constants/ApiConstants/api_constants.dart';
 import 'package:ghmcofficerslogin/res/constants/Images/image_constants.dart';
 import 'package:ghmcofficerslogin/res/constants/routes/app_routes.dart';
-import 'package:ghmcofficerslogin/view/loginpage.dart';
-
 import '../../model/concessioner/concessionaire_dashboard_request.dart';
 import '../../model/concessioner/concessioner_dashboard_list_res.dart';
 import '../../res/components/background_image.dart';
@@ -96,7 +93,7 @@ class _ConcessionaireDashboardState extends State<ConcessionaireDashboard> {
                                         color: Colors.white, fontSize: 16.0),
                                   ),
                                   trailing: Text(
-                                    "${_concessionerDashboardListRes?.aMOHList?[index].cONCESSIONERTICKETSCOUNT}" ?? "",
+                                    "${_concessionerDashboardListRes?.aMOHList?[index].cONCESSIONERTICKETSCOUNT}",
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0),
                                   ),
@@ -146,7 +143,7 @@ class _ConcessionaireDashboardState extends State<ConcessionaireDashboard> {
                                         color: Colors.white, fontSize: 16.0),
                                   ),
                                   trailing: Text(
-                                    "${_concessionerDashboardListRes?.aMOHList?[index].cONCESSIONERPICKUPCAPTURECOUNT}" ?? "",
+                                    "${_concessionerDashboardListRes?.aMOHList?[index].cONCESSIONERPICKUPCAPTURECOUNT}",
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0),
                                   ),
@@ -192,7 +189,7 @@ class _ConcessionaireDashboardState extends State<ConcessionaireDashboard> {
                                         color: Colors.white, fontSize: 16.0),
                                   ),
                                   trailing: Text(
-                                    "${_concessionerDashboardListRes?.aMOHList?[index].cONCESSIONERREJECTEDCOUNT}" ?? "",
+                                    "${_concessionerDashboardListRes?.aMOHList?[index].cONCESSIONERREJECTEDCOUNT}",
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0),
                                   ),
@@ -238,7 +235,7 @@ class _ConcessionaireDashboardState extends State<ConcessionaireDashboard> {
                                         color: Colors.white, fontSize: 16.0),
                                   ),
                                   trailing: Text(
-                                    "${_concessionerDashboardListRes?.aMOHList?[index].cONCESSIONERCLOSEDCOUNT}" ?? "",
+                                    "${_concessionerDashboardListRes?.aMOHList?[index].cONCESSIONERCLOSEDCOUNT}",
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0),
                                   ),
@@ -287,7 +284,7 @@ class _ConcessionaireDashboardState extends State<ConcessionaireDashboard> {
                                         color: Colors.white, fontSize: 16.0),
                                   ),
                                   trailing: Text(
-                                    "${_concessionerDashboardListRes?.aMOHList?[index].cONCESSIONERCLOSINGTICKETCOUNT}" ?? "",
+                                    "${_concessionerDashboardListRes?.aMOHList?[index].cONCESSIONERCLOSINGTICKETCOUNT}",
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 16.0),
                                   ),
@@ -307,7 +304,6 @@ class _ConcessionaireDashboardState extends State<ConcessionaireDashboard> {
   @override
   void initState() {
     NetCheck();
-    // TODO: implement initState
     super.initState();
 
     GetDetails();

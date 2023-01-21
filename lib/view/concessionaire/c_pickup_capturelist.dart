@@ -1,10 +1,7 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_launcher_icons/xml_templates.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ghmcofficerslogin/model/concessioner/concessionaire_pickup_capturelist_res.dart';
 import 'package:ghmcofficerslogin/model/shared_model.dart';
@@ -279,7 +276,6 @@ class _ConcessionerPickupCaptureListState
   @override
   void initState() {
     NetCheck();
-    // TODO: implement initState
     super.initState();
     getdetails();
   }

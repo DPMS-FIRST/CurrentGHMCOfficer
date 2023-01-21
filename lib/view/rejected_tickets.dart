@@ -223,7 +223,7 @@ class _ConsessionerRejectedTicketsListState
   
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     getdetails();
   }
@@ -252,8 +252,7 @@ class _ConsessionerRejectedTicketsListState
       final data = RejectedTicketsListResponse.fromJson(response.data);
       print(response.data);
       setState(() {
-        if(data != null)
-        {
+      
         if (data.sTATUSCODE == "200") {
           EasyLoading.dismiss();
           if (data.ticketList!= null) {
@@ -280,7 +279,7 @@ class _ConsessionerRejectedTicketsListState
               });
           },);
         }
-        }
+      
       });
     } on DioError catch (e) {
       if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {

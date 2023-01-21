@@ -1,11 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ghmcofficerslogin/model/amoh_cclose_ticket_res.dart';
 import 'package:ghmcofficerslogin/model/shared_model.dart';
 import 'package:ghmcofficerslogin/res/components/background_image.dart';
-import 'package:ghmcofficerslogin/res/components/button.dart';
 import 'package:ghmcofficerslogin/res/components/sharedpreference.dart';
 import 'package:ghmcofficerslogin/res/components/showalert.dart';
 import 'package:ghmcofficerslogin/res/components/showalert_singlebutton.dart';
@@ -33,7 +31,6 @@ class _AmohCCloseTicketDetails extends State<AmohCCloseTicketDetails> {
   @override
   void initState() {
     amohConcessionerCloseTicketSubmit();
-    // TODO: implement initState
     super.initState();
   }
 
@@ -421,8 +418,7 @@ class _AmohCCloseTicketDetails extends State<AmohCCloseTicketDetails> {
     var tokenid =
         await SharedPreferencesClass().readTheData(PreferenceConstants.tokenId);
 
-    const requestUrl = ApiConstants.cndw_baseurl +
-        ApiConstants.amoh_close_amoh_closed_ticket_submit;
+    const requestUrl = ApiConstants.cndw_baseurl +ApiConstants.amoh_c_close_ticket_submit;
 
     final requestPayload = {
       "CNDW_GRIEVANCE_ID": AppConstants.amoh_closedticketlist?.tICKETID,
@@ -445,7 +441,6 @@ class _AmohCCloseTicketDetails extends State<AmohCCloseTicketDetails> {
           AmohConcessionerCloseTicketSubmitResponse.fromJson(response.data);
       print(response.data);
       setState(() {
-        if (data != null) {
           if (data.sTATUSCODE == "200") {
             EasyLoading.dismiss();
             amohConcessionerCloseTicketSubmitResponse = data;
@@ -472,7 +467,6 @@ class _AmohCCloseTicketDetails extends State<AmohCCloseTicketDetails> {
               },
             );
           }
-        }
       });
     } on DioError catch (e) {
       if (e.response?.statusCode == 404 || e.response?.statusCode == 500) {

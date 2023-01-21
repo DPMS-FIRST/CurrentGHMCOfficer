@@ -51,6 +51,7 @@ dependencies:
   group_radio_button: ^1.2.0
   footer: ^0.0.4
   flutter_pdfview: ^1.2.5
+  
   geolocator: ^9.0.2
   geocoding: ^2.0.5
   maps_launcher: ^2.0.1

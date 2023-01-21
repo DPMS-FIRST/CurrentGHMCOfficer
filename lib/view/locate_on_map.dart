@@ -187,7 +187,6 @@ class _CustomInfoWindowExampleState extends State<CustomInfoWindowExample> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchDetails();
   }
@@ -219,7 +218,7 @@ class _CustomInfoWindowExampleState extends State<CustomInfoWindowExample> {
 
     }on DioError catch(e)
     {
-
+      print(e);
     }
    }
 }
