@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class SingleButtonDialogBox extends StatefulWidget {
   final String title, descriptions, Buttontext;
   final Image img;

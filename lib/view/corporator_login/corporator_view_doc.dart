@@ -118,8 +118,8 @@ class _CorporatorViewDocState extends State<CorporatorViewDoc> {
                   child: textButton(
                       text: TextConstants.exportpdf,
                       textcolor: Colors.white,
-                      onPressed: () {
-                        getCorporatorReportDetails();
+                      onPressed: () async{
+                        await getCorporatorReportDetails();
                         print(
                             "filepath: ${_corporatorReportResponse?.filePath}");
                         //(_corporatorReportResponse!.filePath!.contains('.pdf'))
@@ -148,7 +148,7 @@ class _CorporatorViewDocState extends State<CorporatorViewDoc> {
     getCorporatorReportDetails();
   }
 
-  void getCorporatorReportDetails() async {
+  getCorporatorReportDetails() async {
     var menuId =
         await SharedPreferencesClass().readTheData(PreferenceConstants.menuId);
     var ward =
@@ -186,13 +186,18 @@ class _CorporatorViewDocState extends State<CorporatorViewDoc> {
           }));
       //converting response from String to json
       final data = CorporatorReportResponse.fromJson(response.data);
-      print(response.data);
+      print("doc response ${response.data}");
 
       setState(() {
         if (data.status == "sucess") {
           _corporatorReportResponse = data;
           print("file ====== ${_corporatorReportResponse?.filePath}");
-        } else {
+        }
+        else if(data.status == "false")
+        {
+          showAlert("${data.tag}");
+        }
+         else {
           showAlert("${data.status}");
         }
       });

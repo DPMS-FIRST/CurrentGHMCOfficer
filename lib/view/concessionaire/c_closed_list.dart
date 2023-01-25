@@ -7,7 +7,7 @@ import 'package:ghmcofficerslogin/model/c_closed_list_res.dart';
 import 'package:ghmcofficerslogin/model/shared_model.dart';
 import 'package:ghmcofficerslogin/res/components/internetcheck.dart';
 import 'package:ghmcofficerslogin/res/components/searchbar.dart';
-import 'package:ghmcofficerslogin/res/components/showtoasts.dart';
+import 'package:ghmcofficerslogin/res/components/showtoast.dart';
 import 'package:ghmcofficerslogin/res/constants/ApiConstants/api_constants.dart';
 import '../../res/components/background_image.dart';
 import '../../res/components/sharedpreference.dart';

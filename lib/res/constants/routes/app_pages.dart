@@ -125,7 +125,7 @@ class AppPages {
       AppRoutes.corporatorviewdoc: ((context) => CorporatorViewDoc()),
       AppRoutes.amohclosedticketdetails: ((context) =>
           AmohCCloseTicketDetails()),
-      AppRoutes.checkstatusnew: ((context) => CheckStatusSample()),
+      AppRoutes.checkstatusnew: ((context) => Check()),
       AppRoutes.takeactionnew: (context) => TakeActionNew(),
     };
   }

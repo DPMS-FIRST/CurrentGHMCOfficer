@@ -4,8 +4,15 @@ import 'package:ghmcofficerslogin/res/constants/routes/app_pages.dart';
 import 'package:ghmcofficerslogin/res/constants/routes/app_routes.dart';
 import 'package:ghmcofficerslogin/view_model/login_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((value) => runApp(MyApp()));
   runApp(const MyApp());
 }
 
