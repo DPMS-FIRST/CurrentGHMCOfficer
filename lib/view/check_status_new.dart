@@ -13,7 +13,7 @@ import 'package:ghmcofficerslogin/res/constants/Images/image_constants.dart';
 import 'package:ghmcofficerslogin/res/constants/app_constants.dart';
 import 'package:ghmcofficerslogin/res/constants/routes/app_routes.dart';
 import 'package:ghmcofficerslogin/res/constants/text_constants/text_constants.dart';
-import 'package:http/http.dart';
+
 import 'package:supercharged/supercharged.dart';
 
 class Check extends StatefulWidget {
@@ -44,7 +44,25 @@ class _CheckState extends State<Check> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("check")),
+      appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: (() {
+                Navigator.of(context).pop();
+              })
+              //() => Navigator.of(context).pop(),
+              ),
+          title: Center(
+            child: Text(
+              "Check Status",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14),
+            ),
+          ),
+        ),
       body: Stack(children: <Widget>[
         BgImage(imgPath: ImageConstants.bg),
         Column(
@@ -64,161 +82,164 @@ class _CheckState extends State<Check> {
             ),
 
             Expanded(
-              child: Container(
-                color: Colors.white,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Expanded(
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: headings
-                              .length /*  res
-                              
-                              .keys
-                              .toList()
-                              .length */
-                          ,
-                          itemBuilder: (BuildContext context, int index1) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.05,
-                                  color: Color.fromARGB(255, 20, 55, 83),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          res.keys.toList()[index1],
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.white),
-                                        ),
-                                        Text(
-                                          "${res.values.toList()[index1].length}",
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.white),
-                                        ),
-                                      ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5.0),
+                child: Container(
+                  color: Colors.white,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Expanded(
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: headings
+                                .length /*  res
+                                
+                                .keys
+                                .toList()
+                                .length */
+                            ,
+                            itemBuilder: (BuildContext context, int index1) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    height:
+                                        MediaQuery.of(context).size.height * 0.05,
+                                    color: Color.fromARGB(255, 20, 55, 83),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            res.keys.toList()[index1],
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.white),
+                                          ),
+                                          Text(
+                                            "${res.values.toList()[index1].length}",
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                                ListView.builder(
-                                    itemCount:
-                                        res.values.toList()[index1].length,
-                                    physics: ClampingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemBuilder:
-                                        (BuildContext context, int index2) {
-                                      return GestureDetector(
-                                        onTap: (() {
-                                          SharedPreferencesClass().writeTheData(
-                                              PreferenceConstants
-                                                  .check_status_id,
-                                              res.values.toList()[index1]
-                                                  [index2]["ID"]);
+                                  ListView.builder(
+                                      itemCount:
+                                          res.values.toList()[index1].length,
+                                      physics: ClampingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemBuilder:
+                                          (BuildContext context, int index2) {
+                                        return GestureDetector(
+                                          onTap: (() {
+                                            SharedPreferencesClass().writeTheData(
+                                                PreferenceConstants
+                                                    .check_status_id,
+                                                res.values.toList()[index1]
+                                                    [index2]["ID"]);
 
-                                          Navigator.pushNamed(context,
-                                              AppRoutes.grivancedetails);
-                                        }),
-                                        child: Container(
-                                            child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            RowComponent(
-                                                TextConstants.check_status_id,
-                                                res.values.toList()[index1]
-                                                        [index2][
-                                                    TextConstants
-                                                        .check_status_id]),
-                                            Line(),
-                                            RowComponent(
-                                                TextConstants
-                                                    .check_status_category_name,
-                                                res.values.toList()[index1]
-                                                        [index2][
-                                                    TextConstants
-                                                        .check_status_category_name]),
-                                            Line(),
-                                            RowComponent(
-                                                TextConstants
-                                                    .check_status_subcategory_name,
-                                                res.values.toList()[index1]
-                                                        [index2][
-                                                    TextConstants
-                                                        .check_status_subcategory_name]),
-                                            Line(),
-                                            RowComponent(
-                                                TextConstants
-                                                    .check_status_time_stamp,
-                                                res.values.toList()[index1]
-                                                        [index2][
-                                                    TextConstants
-                                                        .check_status_time_stamp]),
-                                            Line(),
-                                            RowComponent(
-                                                TextConstants
-                                                    .check_status_assigned_to,
-                                                res.values.toList()[index1]
-                                                        [index2][
-                                                    TextConstants
-                                                        .check_status_assigned_to]),
-                                            Line(),
-                                            RowComponent(
-                                                TextConstants
-                                                    .check_status_status,
-                                                res.values.toList()[index1]
-                                                        [index2][
-                                                    TextConstants
-                                                        .check_status_status]),
-                                            Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 10.0,
-                                                        horizontal: 10.0),
-                                                child: Container(
-                                                    // width: this._width,
-                                                    child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    Padding(
-                                                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                                                      child: Row(
-                                                        children: _iconViews(
-                                                            status: res.values
-                                                                        .toList()[
-                                                                    index1][index2]
-                                                                [TextConstants
-                                                                    .check_status_status]),
+                                            Navigator.pushNamed(context,
+                                                AppRoutes.grivancedetails);
+                                          }),
+                                          child: Container(
+                                              child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              RowComponent(
+                                                  TextConstants.check_status_id,
+                                                  res.values.toList()[index1]
+                                                          [index2][
+                                                      TextConstants
+                                                          .check_status_id]),
+                                              Line(),
+                                              RowComponent(
+                                                  TextConstants
+                                                      .check_status_category_name,
+                                                  res.values.toList()[index1]
+                                                          [index2][
+                                                      TextConstants
+                                                          .check_status_category_name]),
+                                              Line(),
+                                              RowComponent(
+                                                  TextConstants
+                                                      .check_status_subcategory_name,
+                                                  res.values.toList()[index1]
+                                                          [index2][
+                                                      TextConstants
+                                                          .check_status_subcategory_name]),
+                                              Line(),
+                                              RowComponent(
+                                                  TextConstants
+                                                      .check_status_time_stamp,
+                                                  res.values.toList()[index1]
+                                                          [index2][
+                                                      TextConstants
+                                                          .check_status_time_stamp]),
+                                              Line(),
+                                              RowComponent(
+                                                  TextConstants
+                                                      .check_status_assigned_to,
+                                                  res.values.toList()[index1]
+                                                          [index2][
+                                                      TextConstants
+                                                          .check_status_assigned_to]),
+                                              Line(),
+                                              RowComponent(
+                                                  TextConstants
+                                                      .check_status_status,
+                                                  res.values.toList()[index1]
+                                                          [index2][
+                                                      TextConstants
+                                                          .check_status_status]),
+                                              Padding(
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                          vertical: 10.0,
+                                                          horizontal: 10.0),
+                                                  child: Container(
+                                                      // width: this._width,
+                                                      child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                                                        child: Row(
+                                                          children: _iconViews(
+                                                              status: res.values
+                                                                          .toList()[
+                                                                      index1][index2]
+                                                                  [TextConstants
+                                                                      .check_status_status]),
+                                                        ),
                                                       ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 8,
-                                                    ),
-                                                    Row(
-                                                      children: _titleViews(),
-                                                    ),
-                                                  ],
-                                                )))
-                                          ],
-                                        )),
-                                      );
-                                    }),
-                              ],
-                            );
-                          }),
-                    )
-                  ],
+                                                      SizedBox(
+                                                        height: 8,
+                                                      ),
+                                                      Row(
+                                                        children: _titleViews(),
+                                                      ),
+                                                    ],
+                                                  )))
+                                            ],
+                                          )),
+                                        );
+                                      }),
+                                ],
+                              );
+                            }),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
