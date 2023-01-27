@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ghmcofficerslogin/model/check_status_response.dart';
 import 'package:ghmcofficerslogin/model/shared_model.dart';
 import 'package:ghmcofficerslogin/res/components/background_image.dart';
+import 'package:ghmcofficerslogin/res/components/searchbar.dart';
 import 'package:ghmcofficerslogin/res/components/sharedpreference.dart';
 import 'package:ghmcofficerslogin/res/components/textwidget.dart';
 import 'package:ghmcofficerslogin/res/constants/ApiConstants/api_constants.dart';
@@ -48,6 +49,20 @@ class _CheckState extends State<Check> {
         BgImage(imgPath: ImageConstants.bg),
         Column(
           children: [
+             ReusableSearchbar(
+              bgColor: Colors.white,
+              screenHeight: 0.05,
+              searchIcon: Icon(Icons.search),
+              topPadding: 8.0,
+              hinttext: "Search by Id/Type/Category",
+              hinttextcolor: Colors.grey,
+              onChanged: ((value) {
+               // _runFilter(value);
+              }),
+              screenWidth: 1,
+              onPressed: () {},
+            ),
+
             Expanded(
               child: Container(
                 color: Colors.white,
@@ -176,13 +191,16 @@ class _CheckState extends State<Check> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: <Widget>[
-                                                    Row(
-                                                      children: _iconViews(
-                                                          status: res.values
-                                                                      .toList()[
-                                                                  index1][index2]
-                                                              [TextConstants
-                                                                  .check_status_status]),
+                                                    Padding(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                                                      child: Row(
+                                                        children: _iconViews(
+                                                            status: res.values
+                                                                        .toList()[
+                                                                    index1][index2]
+                                                                [TextConstants
+                                                                    .check_status_status]),
+                                                      ),
                                                     ),
                                                     SizedBox(
                                                       height: 8,
@@ -490,11 +508,15 @@ class _CheckState extends State<Check> {
     var list = <Widget>[];
     titles.asMap().forEach((i, text) {
       list.add(Expanded(
-        child: Text(text,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 10,
-            )),
+        child: Padding(
+          padding: const EdgeInsets.only(left:2.0),
+          child: Text(text,
+          textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 10,
+              )),
+        ),
       ));
     });
     return list;

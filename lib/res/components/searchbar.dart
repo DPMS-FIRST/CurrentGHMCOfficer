@@ -12,12 +12,14 @@ class ReusableSearchbar extends StatelessWidget {
     required this.searchIcon,
     this.onPressed, 
     this.controller, 
-    this.onChanged,
+    this.onChanged, this.hinttextcolor, this.hinttext,
   });
   final double topPadding;
   final double screenWidth;
   final double screenHeight;
   final Color bgColor;
+  final Color? hinttextcolor;
+final String? hinttext;
   final controller;
 
   final Function()? onPressed;
@@ -61,9 +63,9 @@ class ReusableSearchbar extends StatelessWidget {
                               borderSide:
                                   BorderSide(color: Colors.white, width: 2.0),
                             ),
-                            hintText: TextConstants.Complaint_id,
+                            hintText: hinttext,
                             hintStyle:
-                                TextStyle(color: Colors.black, fontSize: 12.0, ),
+                                TextStyle(color: hinttextcolor, fontSize: 12.0, ),
                             border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(4.0)),
