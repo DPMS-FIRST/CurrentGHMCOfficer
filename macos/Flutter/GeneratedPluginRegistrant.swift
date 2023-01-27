@@ -10,7 +10,7 @@ import device_info_plus
 import firebase_core
 import geolocator_apple
 import maps_launcher
-import path_provider_macos
+import path_provider_foundation
 import shared_preferences_foundation
 import syncfusion_pdfviewer_macos
 import url_launcher_macos

@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ghmcofficerslogin/model/check_status_response.dart';
 import 'package:ghmcofficerslogin/model/shared_model.dart';
 import 'package:ghmcofficerslogin/res/components/background_image.dart';
+import 'package:ghmcofficerslogin/res/components/searchbar.dart';
 import 'package:ghmcofficerslogin/res/components/sharedpreference.dart';
 import 'package:ghmcofficerslogin/res/components/textwidget.dart';
 import 'package:ghmcofficerslogin/res/constants/ApiConstants/api_constants.dart';
@@ -26,8 +27,6 @@ class _CheckState extends State<Check> {
   checkStatusResponse? _statusResponse;
   Set<String> headings = {};
   var res;
-  // Map values = {};
-  // Map headcount = {};
   List totalitems = [];
   List<ViewGrievances>? _list;
   Map<String, String> objects = {};
@@ -38,6 +37,8 @@ class _CheckState extends State<Check> {
     TextConstants.checkstatus_stepper_closedbycitizen,
     TextConstants.checkstatus_stepper_conditionclosed
   ];
+  var ticketlistResponse = [];
+  var ticketlistSearchListResponse = [];
 
   var reslen;
   @override
@@ -48,6 +49,19 @@ class _CheckState extends State<Check> {
         BgImage(imgPath: ImageConstants.bg),
         Column(
           children: [
+            ReusableSearchbar(
+              bgColor: Colors.white,
+              screenHeight: 0.05,
+              searchIcon: Icon(Icons.search),
+              topPadding: 8.0,
+              hinttext: "Search by Id/Type/Category",
+              hintetextcolor: Colors.grey,
+              onChanged: ((value) {
+                _runFilter(value);
+              }),
+              screenWidth: 1,
+              onPressed: () {},
+            ),
             Expanded(
               child: Container(
                 color: Colors.white,
@@ -176,13 +190,18 @@ class _CheckState extends State<Check> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                   children: <Widget>[
-                                                    Row(
-                                                      children: _iconViews(
-                                                          status: res.values
-                                                                      .toList()[
-                                                                  index1][index2]
-                                                              [TextConstants
-                                                                  .check_status_status]),
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 25.0),
+                                                      child: Row(
+                                                        children: _iconViews(
+                                                            status: res.values
+                                                                        .toList()[
+                                                                    index1][index2]
+                                                                [TextConstants
+                                                                    .check_status_status]),
+                                                      ),
                                                     ),
                                                     SizedBox(
                                                       height: 8,
@@ -218,6 +237,31 @@ class _CheckState extends State<Check> {
     EasyLoading.dismiss();
   }
 
+  _runFilter(String enteredKeyword) {
+    print("object");
+    var results = [];
+    if (enteredKeyword.isEmpty) {
+      results = ticketlistResponse;
+    } else {
+      print("ticketlistResponse ${ticketlistResponse}");
+      results = ticketlistResponse.map((user) {
+        print(user);
+      }).toList();
+      print("object ${results}");
+
+      /*  results = ticketlistResponse
+          .where((element) => element[0][TextConstants.check_status_id]!
+              .toLowerCase()
+              .contains(enteredKeyword.toLowerCase()))
+          .toList(); */
+
+      setState(() {
+        ticketlistSearchListResponse = results;
+      });
+    }
+    //  print("list ${ticketlistSearchListResponse}");
+  }
+
   checkStatusDetails() async {
     var mobileno = await SharedPreferencesClass()
         .readTheData(PreferenceConstants.mobileno);
@@ -245,7 +289,7 @@ class _CheckState extends State<Check> {
           if (_statusResponse?.viewGrievances != null) {
             _list = _statusResponse?.viewGrievances;
             var len = _list?.length ?? 0;
-            List finallist = [];
+
             for (var i = 0; i < len; i++) {
               headings.add("${_list?[i].type}");
               var item = _list?[i];
@@ -263,6 +307,9 @@ class _CheckState extends State<Check> {
             res = totalitems.groupBy((element) =>
                 element[TextConstants.check_status_subcategory_name]);
           }
+
+          ticketlistResponse = res.values.toList();
+          ticketlistSearchListResponse = ticketlistResponse;
         });
       } else {
         print(data.status);
@@ -312,8 +359,6 @@ class _CheckState extends State<Check> {
   bool conditionclosed = false;
 
   List<Widget> _iconViews({required status}) {
-    print("check status ${status}");
-
     switch (status) {
       case TextConstants.checkstatus_stepper_open:
         openflag = true;
@@ -321,7 +366,7 @@ class _CheckState extends State<Check> {
         resolvedbyofficer = false;
         closedbycitizen = false;
         conditionclosed = false;
-        print("open ${openflag}");
+
         break;
       case TextConstants.checkstatus_stepper_underprocess:
         underprocess = true;
@@ -329,7 +374,7 @@ class _CheckState extends State<Check> {
         resolvedbyofficer = false;
         closedbycitizen = false;
         conditionclosed = false;
-        print("underprocess ${underprocess}");
+
         break;
       case TextConstants.checkstatus_stepper_resolvedbyofficer:
         resolvedbyofficer = true;
@@ -337,7 +382,7 @@ class _CheckState extends State<Check> {
         underprocess = false;
         closedbycitizen = false;
         conditionclosed = false;
-        print("resolvedbyofficer ${resolvedbyofficer}");
+
         break;
       case TextConstants.checkstatus_stepper_closedbycitizen:
         closedbycitizen = true;
@@ -345,7 +390,7 @@ class _CheckState extends State<Check> {
         underprocess = false;
         resolvedbyofficer = false;
         conditionclosed = false;
-        print("closedbycitizen ${closedbycitizen}");
+
         break;
       case TextConstants.checkstatus_stepper_conditionclosed:
         conditionclosed = true;
@@ -353,12 +398,13 @@ class _CheckState extends State<Check> {
         underprocess = false;
         resolvedbyofficer = false;
         closedbycitizen = false;
-        print("conditionclosed ${conditionclosed}");
+
         break;
       default:
     }
 
     var list = <Widget>[];
+
     titles.asMap().forEach((i, icon) {
       switch (i) {
         case 0:
@@ -490,11 +536,15 @@ class _CheckState extends State<Check> {
     var list = <Widget>[];
     titles.asMap().forEach((i, text) {
       list.add(Expanded(
-        child: Text(text,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 10,
-            )),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 2.0),
+          child: Text(text,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 10,
+              )),
+        ),
       ));
     });
     return list;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ghmcofficerslogin/res/constants/text_constants/text_constants.dart';
 
-
 class ReusableSearchbar extends StatelessWidget {
   const ReusableSearchbar({
     super.key,
@@ -10,20 +9,22 @@ class ReusableSearchbar extends StatelessWidget {
     required this.screenHeight,
     required this.bgColor,
     required this.searchIcon,
-    this.onPressed, 
-    this.controller, 
-    this.onChanged,
+    this.onPressed,
+    this.controller,
+    this.onChanged, this.hinttext, this.hintetextcolor,
   });
   final double topPadding;
   final double screenWidth;
   final double screenHeight;
   final Color bgColor;
+  final Color? hintetextcolor;
   final controller;
 
   final Function()? onPressed;
   final Function(String)? onChanged;
 
   final Icon searchIcon;
+  final String? hinttext;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,6 @@ class ReusableSearchbar extends StatelessWidget {
                           textAlign: TextAlign.center,
                           keyboardType: TextInputType.number,
                           maxLength: 12,
-                          
                           onChanged: onChanged,
                           controller: controller,
                           decoration: InputDecoration(
@@ -61,9 +61,11 @@ class ReusableSearchbar extends StatelessWidget {
                               borderSide:
                                   BorderSide(color: Colors.white, width: 2.0),
                             ),
-                            hintText: TextConstants.Complaint_id,
-                            hintStyle:
-                                TextStyle(color: Colors.black, fontSize: 12.0, ),
+                            hintText: "${hinttext}",
+                            hintStyle: TextStyle(
+                              color: hintetextcolor,
+                              fontSize: 12.0,
+                            ),
                             border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(4.0)),
@@ -77,15 +79,15 @@ class ReusableSearchbar extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                    onTap: onPressed,
-                    child: Container(
-                      child: Icon(Icons.search,
-                      color: Colors.white,
-                        
-                      ),
-                    ))/* IconButton(
+                    flex: 1,
+                    child: GestureDetector(
+                        onTap: onPressed,
+                        child: Container(
+                          child: Icon(
+                            Icons.search,
+                            color: Colors.white,
+                          ),
+                        )) /* IconButton(
                       icon: Icon(
                         Icons.search,
                         color: Colors.white,
@@ -94,7 +96,7 @@ class ReusableSearchbar extends StatelessWidget {
                       onPressed:
                           onPressed,
                       ), 270822556445*/
-                ),
+                    ),
               ],
             ),
           ),
