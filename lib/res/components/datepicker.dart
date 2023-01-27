@@ -75,7 +75,7 @@ class datePickerComponent extends StatelessWidget {
   },
         validator: (value) {
           if (value!.isEmpty) {
-            return errorMessage;
+            return "${errorMessage}";
           }
         },
         keyboardType: input_type,

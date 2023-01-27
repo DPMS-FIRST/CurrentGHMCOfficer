@@ -85,8 +85,8 @@ class TextConstants {
   static const String checkstatus_stepper_open = "Open";
   static const String checkstatus_stepper_underprocess = "Under Process";
   static const String checkstatus_stepper_resolvedbyofficer =
-      "Resolved By Officer";
-  static const String checkstatus_stepper_closedbycitizen = "Closed By Citizen";
+      "Resolved by Officer";
+  static const String checkstatus_stepper_closedbycitizen = "Closed";
   static const String checkstatus_stepper_conditionclosed = "Condition Closed";
   static const String checkstatus_repairs_to_footpath = "Repairs to Foot Path";
   static const String checkstatus_unauthorized_hoardings =
