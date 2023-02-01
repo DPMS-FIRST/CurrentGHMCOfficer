@@ -323,10 +323,8 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
                     ),
                     IconButton(
                       onPressed: () {
-                        if (raiserequest_vehicletype.length > 2) {
-                          var vehicletypelistlen =
-                              getVehiclesResponse?.vEHICLELIST?.length ?? 0;
-
+                        if (raiserequest_vehicletype.length > 1) {
+                          
                           showModalBottomSheet(
                               isDismissible: false,
                               context: context,
@@ -334,15 +332,7 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
                               builder: (BuildContext context) {
                                 return customBottomSheet();
                               });
-                          for (int i = 0; i < vehicletypelistlen; i++) {
-                            if (names[i][0] ==
-                                raiserequest_vehicletypeslist.value) {
-                              raiserequest_vehicletype
-                                  .remove(raiserequest_vehicletypeslist.value);
-                              raiserequest_vehicletypeslist.value =
-                                  "Select Vehicle Type";
-                            }
-                          }
+                         
                         } else {
                           ShowToats.showToast("There are no vehicles to select",
                               bgcolor: Colors.white, textcolor: Colors.black);
@@ -836,6 +826,18 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
                           amountController.text = amounttext.toString();
                         });
                         Navigator.pop(context);
+                        var vehicletypelistlen =
+                              getVehiclesResponse?.vEHICLELIST?.length ?? 0;
+                           for (int i = 0; i < vehicletypelistlen; i++) {
+                            if (names[i][0] ==
+                                raiserequest_vehicletypeslist.value) {
+                              raiserequest_vehicletype
+                                  .remove(raiserequest_vehicletypeslist.value);
+                              raiserequest_vehicletypeslist.value =
+                                  "Select Vehicle Type";
+                                  tripsController.text = "";
+                            }
+                          }
                       }
                       //raiserequest_vehicletypeslist.value = "Select Vehicle Type";
                     },
@@ -910,8 +912,7 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
       await _getCurrentPosition();
     
     });
-     Future.delayed(const Duration(seconds: 2), () async {
-      
+     Future.delayed(const Duration(seconds: 2), () async {  
       await raiserequestgetDemographics();
     print("lon ----- ${_currentPosition?.latitude}");
     });
@@ -1019,7 +1020,6 @@ class _RaiseRequest_RaiseRequestState extends State<RaiseRequest_RaiseRequest> {
       print(response.data);
 
       setState(() {
-        
           if (data.sTATUSCODE == "200") {
             EasyLoading.dismiss();
             raiseRequestForwardToNextWardResponse = data;

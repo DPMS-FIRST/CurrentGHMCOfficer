@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:ghmcofficerslogin/model/corporator/corporator_report_req.dart';
 import 'package:ghmcofficerslogin/model/corporator/corporator_report_response.dart';
+import 'package:ghmcofficerslogin/model/get_ward_response.dart';
 import 'package:ghmcofficerslogin/model/shared_model.dart';
 import 'package:ghmcofficerslogin/res/components/background_image.dart';
 import 'package:ghmcofficerslogin/res/components/button.dart';
 import 'package:ghmcofficerslogin/res/components/sharedpreference.dart';
+import 'package:ghmcofficerslogin/res/components/showtoast.dart';
 import 'package:ghmcofficerslogin/res/components/textwidget.dart';
 import 'package:ghmcofficerslogin/res/constants/ApiConstants/api_constants.dart';
 import 'package:ghmcofficerslogin/res/constants/Images/image_constants.dart';
@@ -29,8 +31,6 @@ class _CorporatorViewDocState extends State<CorporatorViewDoc> {
 
   TextEditingController _dateController = TextEditingController();
   bool date = false;
-  //var _selectedDate;
-  //final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
   FocusNode myFocusNode = new FocusNode();
   @override
   Widget build(BuildContext context) {
@@ -76,6 +76,7 @@ class _CorporatorViewDocState extends State<CorporatorViewDoc> {
                     Expanded(
                       flex: 4,
                       child: TextField(
+                        controller: _dateController,
                         readOnly: true,
                         decoration: InputDecoration(
                             suffixIcon: IconButton(
@@ -102,7 +103,6 @@ class _CorporatorViewDocState extends State<CorporatorViewDoc> {
                             color: Colors.blueAccent,
                           ),
                         )),
-                        controller: _dateController,
                         style: TextStyle(
                           color: Colors.black,
                         ),
@@ -118,19 +118,18 @@ class _CorporatorViewDocState extends State<CorporatorViewDoc> {
                   child: textButton(
                       text: TextConstants.exportpdf,
                       textcolor: Colors.white,
-                      onPressed: () async{
+                      onPressed: () async {
                         await getCorporatorReportDetails();
                         print(
                             "filepath: ${_corporatorReportResponse?.filePath}");
-                        //(_corporatorReportResponse!.filePath!.contains('.pdf'))
-                        //_pdfViewerKey.currentState?.openBookmarkView();
-
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ImageViewPage(
                                       filePath:
                                           "${_corporatorReportResponse?.filePath}",
+                                      filename:
+                                          "${_corporatorReportResponse?.fileName}",
                                     )));
                       }),
                 ),
@@ -149,16 +148,23 @@ class _CorporatorViewDocState extends State<CorporatorViewDoc> {
   }
 
   getCorporatorReportDetails() async {
+    var cdate = DateTime.now();
+    initializeDateFormatting('es');
+    var dateformtter = DateFormat.yMd('es').format(cdate);
+    setState(() {
+      _dateController.text=dateformtter;
+    });
     var menuId =
         await SharedPreferencesClass().readTheData(PreferenceConstants.menuId);
     var ward =
         await SharedPreferencesClass().readTheData(PreferenceConstants.ward);
     var type =
-        await SharedPreferencesClass().readTheData(PreferenceConstants.type);
+        await SharedPreferencesClass().readTheData(PreferenceConstants.typeid);
+    print("object --------- ${type}");
 
     //creating request url with base url and endpoint
     // https: //19cghmc.cgg.gov.in/myghmcwebapi/Grievance/CorporatorList
-    const requesturl = ApiConstants.baseurl + ApiConstants.corporatorReport;
+    const requesturl = ApiConstants.uatBaseUrl + ApiConstants.corporatorReport;
 
     //creating payload because request type is POST
     CorporatorReportRequest corporatorReportRequest =
@@ -168,7 +174,7 @@ class _CorporatorViewDocState extends State<CorporatorViewDoc> {
     corporatorReportRequest.tODATE = _dateController.text;
     corporatorReportRequest.mENUID = menuId;
     corporatorReportRequest.wARD = ward;
-    corporatorReportRequest.tYPE = type;
+    corporatorReportRequest.tYPE = "pdf";
     var requestPayload = corporatorReportRequest.toJson();
 
     print(requestPayload);
@@ -193,13 +199,13 @@ class _CorporatorViewDocState extends State<CorporatorViewDoc> {
           _corporatorReportResponse = data;
           print("file ====== ${_corporatorReportResponse?.filePath}");
         }
-        else if(data.status == "false")
+        /* else if(data.status == "false")
         {
           showAlert("${data.tag}");
         }
          else {
           showAlert("${data.status}");
-        }
+        } */
       });
       EasyLoading.dismiss();
     } on DioError catch (e) {

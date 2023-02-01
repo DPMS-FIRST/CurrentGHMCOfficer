@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ghmcofficerslogin/res/constants/text_constants/text_constants.dart';
-
 
 class ReusableSearchbar extends StatelessWidget {
   const ReusableSearchbar({
@@ -12,7 +10,7 @@ class ReusableSearchbar extends StatelessWidget {
     required this.searchIcon,
     this.onPressed, 
     this.controller, 
-    this.onChanged, this.hinttextcolor, this.hinttext,
+    this.onChanged, this.hinttextcolor, this.hinttext, this.keyboard,
   });
   final double topPadding;
   final double screenWidth;
@@ -21,6 +19,7 @@ class ReusableSearchbar extends StatelessWidget {
   final Color? hinttextcolor;
 final String? hinttext;
   final controller;
+  final TextInputType? keyboard;
 
   final Function()? onPressed;
   final Function(String)? onChanged;
@@ -50,7 +49,7 @@ final String? hinttext;
                       child: Center(
                         child: TextFormField(
                           textAlign: TextAlign.center,
-                          keyboardType: TextInputType.number,
+                          keyboardType: keyboard,
                           maxLength: 12,
                           
                           onChanged: onChanged,

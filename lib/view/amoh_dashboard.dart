@@ -206,7 +206,7 @@ class _AmohDashboardList extends State<AmohDashboardList> {
                           if (amohDashboardListResponse
                                   ?.aMOHList?[0].aMOHCLOSETICKETS ==
                               "0") {
-                            //showAlert("No records available");
+                           showAlert();
                           } else {
                              var result = await Connectivity().checkConnectivity();
                           if(result == ConnectivityResult.mobile || result == ConnectivityResult.wifi)

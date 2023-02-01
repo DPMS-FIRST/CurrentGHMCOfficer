@@ -7,6 +7,7 @@ import 'package:ghmcofficerslogin/model/shared_model.dart';
 import 'package:ghmcofficerslogin/res/components/background_image.dart';
 import 'package:ghmcofficerslogin/res/components/searchbar.dart';
 import 'package:ghmcofficerslogin/res/components/sharedpreference.dart';
+import 'package:ghmcofficerslogin/res/components/showtoast.dart';
 import 'package:ghmcofficerslogin/res/components/textwidget.dart';
 import 'package:ghmcofficerslogin/res/constants/ApiConstants/api_constants.dart';
 import 'package:ghmcofficerslogin/res/constants/Images/image_constants.dart';
@@ -27,11 +28,14 @@ class _CheckState extends State<Check> {
   checkStatusResponse? _statusResponse;
   Set<String> headings = {};
   var res;
-  // Map values = {};
-  // Map headcount = {};
   List totalitems = [];
   List<ViewGrievances>? _list;
   Map<String, String> objects = {};
+  bool searchflag = false;
+  var searchheads = [];
+  var searchvalues;
+  var ticketlistResponse;
+  var ticketlistSearchListResponse;
   List titles = [
     TextConstants.checkstatus_stepper_open,
     TextConstants.checkstatus_stepper_underprocess,
@@ -40,47 +44,42 @@ class _CheckState extends State<Check> {
     TextConstants.checkstatus_stepper_conditionclosed
   ];
 
-  var reslen;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: (() {
-                Navigator.of(context).pop();
-              })
-              //() => Navigator.of(context).pop(),
-              ),
-          title: Center(
-            child: Text(
-              "Check Status",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: (() {
+              Navigator.of(context).pop();
+            })
+            //() => Navigator.of(context).pop(),
             ),
+        title: Center(
+          child: Text(
+            "Check Status",
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
           ),
         ),
+      ),
       body: Stack(children: <Widget>[
         BgImage(imgPath: ImageConstants.bg),
         Column(
           children: [
-             ReusableSearchbar(
+            ReusableSearchbar(
+
               bgColor: Colors.white,
               screenHeight: 0.05,
               searchIcon: Icon(Icons.search),
               topPadding: 8.0,
-              hinttext: "Search by Id/Type/Category",
-              hinttextcolor: Colors.grey,
               onChanged: ((value) {
-               // _runFilter(value);
+                _runFilter(value);
               }),
               screenWidth: 1,
               onPressed: () {},
             ),
-
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -92,8 +91,10 @@ class _CheckState extends State<Check> {
                       Expanded(
                         child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: headings
-                                .length /*  res
+                            itemCount: searchflag
+                                ? searchheads.length
+                                : headings
+                                    .length /*  res
                                 
                                 .keys
                                 .toList()
@@ -104,8 +105,8 @@ class _CheckState extends State<Check> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
-                                    height:
-                                        MediaQuery.of(context).size.height * 0.05,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.05,
                                     color: Color.fromARGB(255, 20, 55, 83),
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -113,27 +114,48 @@ class _CheckState extends State<Check> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            res.keys.toList()[index1],
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.white),
-                                          ),
-                                          Text(
-                                            "${res.values.toList()[index1].length}",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.white),
-                                          ),
+                                          searchflag
+                                              ? Text(
+                                                  "${searchheads[index1]}",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.white),
+                                                )
+                                              : Text(
+                                                  res.keys.toList()[index1],
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.white),
+                                                ),
+                                          searchflag
+                                              ? Text(
+                                                  "${searchvalues[index1].length}",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.white),
+                                                )
+                                              : Text(
+                                                  "${res.values.toList()[index1].length}",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.white),
+                                                ),
                                         ],
                                       ),
                                     ),
                                   ),
                                   ListView.builder(
-                                      itemCount:
-                                          res.values.toList()[index1].length,
+                                      itemCount: searchflag
+                                          ? searchvalues[index1].length
+                                          : res.values.toList()[index1].length,
                                       physics: ClampingScrollPhysics(),
                                       shrinkWrap: true,
                                       itemBuilder:
@@ -143,8 +165,15 @@ class _CheckState extends State<Check> {
                                             SharedPreferencesClass().writeTheData(
                                                 PreferenceConstants
                                                     .check_status_id,
-                                                res.values.toList()[index1]
-                                                    [index2]["ID"]);
+                                                searchflag
+                                                    ? searchvalues[index1]
+                                                            [index2][
+                                                        TextConstants
+                                                            .check_status_id]
+                                                    : res.values.toList()[
+                                                            index1][index2][
+                                                        TextConstants
+                                                            .check_status_id]);
 
                                             Navigator.pushNamed(context,
                                                 AppRoutes.grivancedetails);
@@ -156,70 +185,103 @@ class _CheckState extends State<Check> {
                                             children: [
                                               RowComponent(
                                                   TextConstants.check_status_id,
-                                                  res.values.toList()[index1]
-                                                          [index2][
-                                                      TextConstants
-                                                          .check_status_id]),
+                                                  searchflag
+                                                      ? searchvalues[index1]
+                                                              [index2][
+                                                          TextConstants
+                                                              .check_status_id]
+                                                      : res.values.toList()[
+                                                              index1][index2][
+                                                          TextConstants
+                                                              .check_status_id]),
                                               Line(),
                                               RowComponent(
                                                   TextConstants
                                                       .check_status_category_name,
-                                                  res.values.toList()[index1]
-                                                          [index2][
-                                                      TextConstants
-                                                          .check_status_category_name]),
+                                                  searchflag
+                                                      ? searchvalues[index1]
+                                                              [index2][
+                                                          TextConstants
+                                                              .check_status_category_name]
+                                                      : res.values.toList()[
+                                                              index1][index2][
+                                                          TextConstants
+                                                              .check_status_category_name]),
                                               Line(),
                                               RowComponent(
                                                   TextConstants
                                                       .check_status_subcategory_name,
-                                                  res.values.toList()[index1]
-                                                          [index2][
-                                                      TextConstants
-                                                          .check_status_subcategory_name]),
-                                              Line(),
-                                              RowComponent(
-                                                  TextConstants
-                                                      .check_status_time_stamp,
-                                                  res.values.toList()[index1]
-                                                          [index2][
-                                                      TextConstants
-                                                          .check_status_time_stamp]),
+                                                  searchflag
+                                                      ? searchvalues[index1]
+                                                              [index2][
+                                                          TextConstants
+                                                              .check_status_subcategory_name]
+                                                      : res.values.toList()[
+                                                              index1][index2][
+                                                          TextConstants
+                                                              .check_status_subcategory_name]),
                                               Line(),
                                               RowComponent(
                                                   TextConstants
                                                       .check_status_assigned_to,
-                                                  res.values.toList()[index1]
-                                                          [index2][
-                                                      TextConstants
-                                                          .check_status_assigned_to]),
+                                                  searchflag
+                                                      ? searchvalues[index1]
+                                                              [index2][
+                                                          TextConstants
+                                                              .check_status_assigned_to]
+                                                      : res.values.toList()[
+                                                              index1][index2][
+                                                          TextConstants
+                                                              .check_status_assigned_to]),
                                               Line(),
                                               RowComponent(
                                                   TextConstants
                                                       .check_status_status,
-                                                  res.values.toList()[index1]
-                                                          [index2][
-                                                      TextConstants
-                                                          .check_status_status]),
+                                                  searchflag
+                                                      ? searchvalues[index1]
+                                                              [index2][
+                                                          TextConstants
+                                                              .check_status_status]
+                                                      : res.values.toList()[
+                                                              index1][index2][
+                                                          TextConstants
+                                                              .check_status_status]),
+                                              Line(),
                                               Padding(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                          vertical: 10.0,
-                                                          horizontal: 10.0),
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      vertical: 10.0,
+                                                      horizontal: 10.0),
                                                   child: Container(
                                                       // width: this._width,
                                                       child: Column(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment.center,
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: <Widget>[
                                                       Padding(
-                                                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                horizontal:
+                                                                    25.0),
                                                         child: Row(
                                                           children: _iconViews(
-                                                              status: res.values
-                                                                          .toList()[
-                                                                      index1][index2]
-                                                                  [TextConstants
-                                                                      .check_status_status]),
+                                                              status: searchflag
+                                                                  ? searchvalues[
+                                                                              index1]
+                                                                          [
+                                                                          index2]
+                                                                      [
+                                                                      TextConstants
+                                                                          .check_status_status]
+                                                                  : res.values.toList()[
+                                                                              index1]
+                                                                          [
+                                                                          index2]
+                                                                      [
+                                                                      TextConstants
+                                                                          .check_status_status]),
                                                         ),
                                                       ),
                                                       SizedBox(
@@ -229,7 +291,8 @@ class _CheckState extends State<Check> {
                                                         children: _titleViews(),
                                                       ),
                                                     ],
-                                                  )))
+                                                  ))),
+                                              Line(),
                                             ],
                                           )),
                                         );
@@ -251,10 +314,53 @@ class _CheckState extends State<Check> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     checkStatusDetails();
     EasyLoading.dismiss();
+  }
+
+  _runFilter(String enteredKeyword) {
+    setState(() {
+      searchflag = true;
+    });
+    // print("object");
+
+    var results = [];
+    var finalitems;
+
+    if (enteredKeyword.isEmpty) {
+      finalitems = ticketlistResponse;
+    } else {
+      ticketlistResponse.map((user) {
+        user.map((u) {
+          if (u[TextConstants.check_status_id]
+                  .toLowerCase()
+                  .contains(enteredKeyword) ||
+              u[TextConstants.check_status_subcategory_name]
+                  .toLowerCase()
+                  .contains(enteredKeyword) ||
+              u[TextConstants.check_status_category_name]
+                  .toLowerCase()
+                  .contains(enteredKeyword)) {
+            // //  print(u);
+            // print(user);
+
+            results.add(u);
+          }
+        }).toList();
+      }).toList();
+
+      finalitems = results.groupBy(
+          (element) => element[TextConstants.check_status_subcategory_name]);
+
+      setState(() {
+        ticketlistSearchListResponse = finalitems;
+      });
+
+      searchheads = ticketlistSearchListResponse.keys.toList();
+
+      searchvalues = ticketlistSearchListResponse.values.toList();
+    }
   }
 
   checkStatusDetails() async {
@@ -269,7 +375,7 @@ class _CheckState extends State<Check> {
       "userid": AppConstants.userid
     };
     final dio_obj = Dio();
-    print("payload ${check_status_payload}");
+    // print("payload ${check_status_payload}");
 
     try {
       final check_status_response =
@@ -284,7 +390,7 @@ class _CheckState extends State<Check> {
           if (_statusResponse?.viewGrievances != null) {
             _list = _statusResponse?.viewGrievances;
             var len = _list?.length ?? 0;
-            List finallist = [];
+
             for (var i = 0; i < len; i++) {
               headings.add("${_list?[i].type}");
               var item = _list?[i];
@@ -299,8 +405,11 @@ class _CheckState extends State<Check> {
               // print(d);
               totalitems.add(objects);
             }
+
             res = totalitems.groupBy((element) =>
                 element[TextConstants.check_status_subcategory_name]);
+            ticketlistResponse = res.values.toList();
+            ticketlistSearchListResponse = ticketlistResponse;
           }
         });
       } else {
@@ -351,7 +460,7 @@ class _CheckState extends State<Check> {
   bool conditionclosed = false;
 
   List<Widget> _iconViews({required status}) {
-    print("check status ${status}");
+    // print("check status ${status}");
 
     switch (status) {
       case TextConstants.checkstatus_stepper_open:
@@ -360,7 +469,7 @@ class _CheckState extends State<Check> {
         resolvedbyofficer = false;
         closedbycitizen = false;
         conditionclosed = false;
-        print("open ${openflag}");
+        // print("open ${openflag}");
         break;
       case TextConstants.checkstatus_stepper_underprocess:
         underprocess = true;
@@ -368,7 +477,7 @@ class _CheckState extends State<Check> {
         resolvedbyofficer = false;
         closedbycitizen = false;
         conditionclosed = false;
-        print("underprocess ${underprocess}");
+        // print("underprocess ${underprocess}");
         break;
       case TextConstants.checkstatus_stepper_resolvedbyofficer:
         resolvedbyofficer = true;
@@ -376,7 +485,7 @@ class _CheckState extends State<Check> {
         underprocess = false;
         closedbycitizen = false;
         conditionclosed = false;
-        print("resolvedbyofficer ${resolvedbyofficer}");
+        // print("resolvedbyofficer ${resolvedbyofficer}");
         break;
       case TextConstants.checkstatus_stepper_closedbycitizen:
         closedbycitizen = true;
@@ -384,7 +493,7 @@ class _CheckState extends State<Check> {
         underprocess = false;
         resolvedbyofficer = false;
         conditionclosed = false;
-        print("closedbycitizen ${closedbycitizen}");
+        // print("closedbycitizen ${closedbycitizen}");
         break;
       case TextConstants.checkstatus_stepper_conditionclosed:
         conditionclosed = true;
@@ -392,7 +501,7 @@ class _CheckState extends State<Check> {
         underprocess = false;
         resolvedbyofficer = false;
         closedbycitizen = false;
-        print("conditionclosed ${conditionclosed}");
+        // print("conditionclosed ${conditionclosed}");
         break;
       default:
     }
@@ -461,7 +570,7 @@ class _CheckState extends State<Check> {
                 borderRadius: new BorderRadius.all(new Radius.circular(22.0)),
                 border: new Border.all(
                   color: closedbycitizen
-                      ? Color.fromARGB(255, 71, 215, 73)
+                      ? Color.fromARGB(255, 37, 110, 38)
                       : Colors.black,
                   width: closedbycitizen ? 10.0 : 2.0,
                 ),
@@ -530,9 +639,9 @@ class _CheckState extends State<Check> {
     titles.asMap().forEach((i, text) {
       list.add(Expanded(
         child: Padding(
-          padding: const EdgeInsets.only(left:2.0),
+          padding: const EdgeInsets.only(left: 2.0),
           child: Text(text,
-          textAlign: TextAlign.center,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 10,

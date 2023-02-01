@@ -1,21 +1,28 @@
-
+import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:ghmcofficerslogin/view/pdf_view.dart';
-import 'package:share/share.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ghmcofficerslogin/res/components/showtoast.dart';
+import 'package:http/http.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class ImageViewPage extends StatefulWidget {
   final String filePath;
-  const ImageViewPage( {super.key, required this.filePath,});
-  
+  final String filename;
+  const ImageViewPage({
+    super.key,
+    required this.filePath,
+    required this.filename,
+  });
 
   @override
   State<ImageViewPage> createState() => _ImageViewPageState();
 }
 
 class _ImageViewPageState extends State<ImageViewPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,9 +31,10 @@ class _ImageViewPageState extends State<ImageViewPage> {
         actions: [
           IconButton(
             icon: Icon(Icons.download, color: Colors.black),
-            onPressed: ()  {
-              //EasyLoading.show();
-              showDialog(builder: (BuildContext context) => DownloadingDialog(filePath: '${widget.filePath}',), context: context);
+            onPressed: () {
+              downloadFile();
+              print('${widget.filename}');
+              print('${widget.filePath}');
             },
           ),
         ],
@@ -35,7 +43,6 @@ class _ImageViewPageState extends State<ImageViewPage> {
             onPressed: (() {
               Navigator.of(context).pop();
             })
-            //() => Navigator.of(context).pop(),
             ),
         title: Center(
           child: Text(
@@ -45,22 +52,61 @@ class _ImageViewPageState extends State<ImageViewPage> {
         ),
       ),
       body: Center(
-        child:SfPdfViewer.network(
-         widget.filePath
-         // 'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf',
-           ),
+        child: SfPdfViewer.network(
+          widget.filePath
+            // 'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf',
+            ),
       ),
-      floatingActionButton:FloatingActionButton(
-      onPressed: shareFile,
-      child: Icon(Icons.share),
-     ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: shareFile,
+        child: Icon(Icons.share),
+      ),
     );
-    
-  }
-  void shareFile() async
-  {
-    var file = await FilePicker.platform.pickFiles();
-    Share.shareFiles([file!.paths[0]!]);
   }
 
+  void downloadFile() async {
+    if (Platform.isIOS) {
+      final dir = await getApplicationDocumentsDirectory();
+    }
+    if (Platform.isAndroid) {
+      var status = await Permission.storage.status;
+      if (status != PermissionStatus.granted) {
+        status = await Permission.storage.request();
+      }
+      if (status.isGranted) {
+        var filepath = "/storage/emulated/0/Download/pdf-${widget.filename}";
+        var file = File(filepath);
+        var res = await get(Uri.parse("${widget.filePath}"));
+        file.writeAsBytes(res.bodyBytes);
+        ShowToats.showToast("Download Successful",bgcolor: Colors.black, textcolor: Colors.white, gravity: ToastGravity.CENTER);
+      }
+    }
+  }
+
+  void shareFile() async {
+    var filepath;
+    var file;
+    //var file = await FilePicker.platform.pickFiles();
+    //List<XFile>? files = file?.files.map((e) => e.path.toString()).cast<XFile>().toList();
+   /*  List<XFile> files = file!.files.map((e) => XFile(e.path!)).cast<XFile>().toList();
+    if(files == null) return;
+    await Share.shareXFiles(files); */
+    //await Share.shareFiles([file!.paths[0]!]);
+    if (Platform.isAndroid) {
+      var status = await Permission.storage.status;
+      if (status != PermissionStatus.granted) {
+        status = await Permission.storage.request();
+      }
+      if (status.isGranted) {
+         filepath = "/storage/emulated/0/Download/pdf-${widget.filename}";
+        file = File(filepath);
+        var res = await get(Uri.parse("${widget.filePath}"));
+        file.writeAsBytes(res.bodyBytes);
+        ShowToats.showToast("Download Successful",bgcolor: Colors.black, textcolor: Colors.white, gravity: ToastGravity.CENTER);
+      }
+    }
+     await Share.shareXFiles(
+                      [XFile(filepath)],);
+    // await Share.shareFiles([filepath]);
+  }
 }

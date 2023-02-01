@@ -1,6 +1,9 @@
 class ApiConstants {
   static const String baseurl =
       "https://19cghmc.cgg.gov.in/myghmcwebapi/Grievance/";
+     
+        static const String uatBaseUrl =
+      "https://uatghmc.cgg.gov.in/MyGhmcServices/Grievance/";
 
   static const String endpoint = "GetAllCount";
 

@@ -20,6 +20,7 @@ class _DownloadingDialogState extends State<DownloadingDialog> {
      String url = "${widget.filePath}";
     const String fileName = "xyz.pdf";
     String path = await _getFilePath(fileName);
+    
 
     await dio.download(url, path,
     onReceiveProgress:(recievedBytes, totalBytes) {

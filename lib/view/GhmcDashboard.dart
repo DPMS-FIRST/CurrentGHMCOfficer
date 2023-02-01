@@ -340,6 +340,9 @@ class _GhmcDashboardState extends State<GhmcDashboard> {
                                     Image.network(
                                       "${data?.uRL}",
                                       height: 40,
+                                      errorBuilder: ((context, error, stackTrace) {
+                                        return Image.asset(ImageConstants.errorimage);
+                                      }),
                                     ),
                                     // SizedBox(
                                     //   height: 5.0,

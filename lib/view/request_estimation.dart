@@ -9,6 +9,7 @@ import 'package:ghmcofficerslogin/model/request_estimation_response.dart';
 import 'package:ghmcofficerslogin/model/request_estimation_submit_response.dart';
 import 'package:ghmcofficerslogin/model/shared_model.dart';
 import 'package:ghmcofficerslogin/res/components/background_image.dart';
+import 'package:ghmcofficerslogin/res/components/showalert_singlebutton.dart';
 import 'package:ghmcofficerslogin/res/constants/ApiConstants/api_constants.dart';
 import 'package:ghmcofficerslogin/res/constants/app_constants.dart';
 import 'package:ghmcofficerslogin/res/constants/routes/app_routes.dart';
@@ -182,11 +183,8 @@ class _RequestEstimationState extends State<RequestEstimation> {
                       ),
                       IconButton(
                         onPressed: () {
-                          if(vehicletype.length > 2)
-                          {
-                          var vehicletypelistlen =
-                              getVehiclesResponse?.vEHICLELIST?.length ?? 0;
-
+                          if(vehicletype.length > 1)
+                          { 
                           showModalBottomSheet(
                             isDismissible: false,
                               context: context,
@@ -194,12 +192,7 @@ class _RequestEstimationState extends State<RequestEstimation> {
                               builder: (BuildContext context) {
                                 return customBottomSheet();
                               });
-                          for (int i = 0; i < vehicletypelistlen; i++) {
-                            if (names[i][0] == vehicletypeslist.value) {
-                              vehicletype.remove(vehicletypeslist.value);
-                              vehicletypeslist.value = "Select Vehicle Type";
-                            }
-                          }
+                          
                           }
                           else{
                             showToast("There are no vehicles to select");
@@ -614,6 +607,15 @@ class _RequestEstimationState extends State<RequestEstimation> {
                           amountController.text = amounttext.toString();
                         });
                         Navigator.pop(context);
+                        var vehicletypelistlen =
+                              getVehiclesResponse?.vEHICLELIST?.length ?? 0;
+                          for (int i = 0; i < vehicletypelistlen; i++) {
+                            if (names[i][0] == vehicletypeslist.value) {
+                              vehicletype.remove(vehicletypeslist.value);
+                              vehicletypeslist.value = "Select Vehicle Type";
+                              tripsController.text = "";
+                            }
+                          }
                       }
                       
                     },
@@ -870,7 +872,23 @@ class _RequestEstimationState extends State<RequestEstimation> {
         if (data.sTATUSCODE == "200") {
           EasyLoading.dismiss();
           requestEstimationResponse = data;
-        } else if (data.sTATUSCODE == "600") {}
+        } else if (data.sTATUSCODE == "600") {
+          EasyLoading.dismiss();
+          requestEstimationResponse = data;
+          showDialog(
+            context: context, 
+          builder:(context) {
+            return SingleButtonDialogBox(
+              bgColor: Color.fromARGB(255, 225, 38, 38),
+              title: "GHMC OFFICER APP", 
+              descriptions: "${requestEstimationResponse?.sTATUSMESSAGE}", 
+              Buttontext: "Ok", 
+              img: Image.asset("assets/cross.png"), 
+              onPressed: (){
+                  Navigator.popUntil(context, ModalRoute.withName(AppRoutes.myloginpage));
+              });
+          },);
+        }
       });
     } on DioError catch (e) {
       if (e.response?.statusCode == 400 || e.response?.statusCode == 500) {

@@ -71,7 +71,7 @@ class AppPages {
       AppRoutes.otpscreen: ((context) => const OtpNewScreen()),
       AppRoutes.viewcomment: ((context) => ViewCommentsScreen()),
       AppRoutes.takeaction: ((context) => const ApiResponse()),
-      AppRoutes.imageviewpage: ((context) =>  ImageViewPage(filePath: '',)),
+      AppRoutes.imageviewpage: ((context) =>  ImageViewPage(filePath: '', filename: '',)),
       AppRoutes.raisegrievance: ((context) => const RaiseGrievance()),
       AppRoutes.newcomplaint: ((context) => const NewComplaint()),
       AppRoutes.pdfViewer: ((context) =>  DownloadingDialog(filePath: '',)),
